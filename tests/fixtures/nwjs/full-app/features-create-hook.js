@@ -173,7 +173,7 @@ window.addEventListener('load', function() {
     selectedClient.addMagnet = function(magnet, dlPath, label) { handedOff = { magnet: magnet, dlPath: dlPath, label: label }; return Promise.resolve() }
     selectedClient.Update = function() {}
     settings.set('torrenting.launch_via_chromium', false)
-    engines.launchMagnet(providerResults[0].magnetUrl, 97003, '/fixture/downloads', 'Feature Matrix')
+    await engines.launchMagnet(providerResults[0].magnetUrl, 97003, '/fixture/downloads', 'Feature Matrix')
     selectedClient.isConnected = originalConnected
     selectedClient.addMagnet = originalAddMagnet
     if (!handedOff || handedOff.dlPath !== '/fixture/downloads' || handedOff.label !== 'Feature Matrix' || injector.get('TorrentHashListService').hasHash('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') !== true) throw new Error('Provider magnet handoff failed')

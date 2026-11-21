@@ -87,7 +87,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
 
     vm.autoDownload = function(serie, episode) {
       if (!episode.isDownloaded() && episode.hasAired()) {
-        AutoDownloadService.autoDownload(serie, episode)
+        return AutoDownloadService.autoDownload(serie, episode, true)
       }
     }
 

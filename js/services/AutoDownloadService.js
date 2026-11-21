@@ -3,8 +3,8 @@
  * and automatically downloads the first search result if it passes all the filters and more than minSeeders seeders are available.
  * SE must have magnets as we need the torrentHash to track progress. magnets on details page are supported.
  */
-DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', 'FavoritesService', 'SceneNameResolver', 'SettingsService', 'TorrentSearchEngines', 'TorrentResultPolicy', 'DuckieTorrent', 'NotificationService',
-  function($rootScope, $injector, $filter, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, TorrentResultPolicy, DuckieTorrent, NotificationService) {
+DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter', '$translate', 'FavoritesService', 'SceneNameResolver', 'SettingsService', 'TorrentSearchEngines', 'TorrentResultPolicy', 'DuckieTorrent', 'NotificationService',
+  function($rootScope, InAppAlerts, $filter, $translate, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, TorrentResultPolicy, DuckieTorrent, NotificationService) {
     var service = {
       checkTimeout: null,
       activityList: [],
@@ -156,7 +156,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
         service.checkTimeout = setTimeout(service.autoDownloadCheck, 1000 * 60 * 15) // fire new episodeaired check in 15 minutes.
       },
 
-      autoDownload: function(serie, episode) {
+      autoDownload: async function(serie, episode, manual) {
         var hasCustomSeeders = (serie.customSeeders && serie.customSeeders != null) ? 1 : 0
         var hasCustomIncludes = (serie.customIncludes && serie.customIncludes != null) ? 1 : 0
         var hasCustomExcludes = (serie.customExcludes && serie.customExcludes != null) ? 1 : 0
@@ -189,131 +189,99 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
         // used to add to query when Require Keywords mode is set to ALL
         var RequireKeywords_String = (requireKeywordsModeOR) ? '' : requireKeywords
 
-        // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
-        return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
-          var q = [searchString, preferredQuality, RequireKeywords_String].join(' ').trim()
-          /**
-           * Search torrent SE for the torrent query
-           */
-          return searchEngine.search(q, true).then(function(results) {
-            var items = $filter('orderBy')(results, '-seeders')
-            var sizeMin = serie.customSearchSizeMin !== null ? serie.customSearchSizeMin : globalSizeMin
-            var sizeMax = serie.customSearchSizeMax !== null ? serie.customSearchSizeMax : globalSizeMax
-            var filtered = TorrentResultPolicy.filter(items, {
-              scoreQuery: q,
-              primaryQuery: q,
-              stripSearchPunctuation: false,
-              negativeTermsPass: false,
-              requireAny: requireKeywordsModeOR,
-              requiredKeywords: requireKeywords,
-              ignoredKeywords: ignoreKeywords,
-              sizeMin: sizeMin,
-              sizeMax: sizeMax,
-              minSeedersEnabled: true,
-              minSeeders: minSeeders,
-              deduplicate: false,
-              stages: ['score', 'required', 'ignored', 'size', 'seeders']
-            })
+        var context = {
+          episode: serie.name + ' ' + episode.getFormattedEpisode(),
+          provider: searchEngine && searchEngine.config ? searchEngine.config.name : (serie.searchProvider || TorrentSearchEngines.getDefaultEngineName())
+        }
+        var stage = 'search'
+        var q
 
-            if (filtered.counts.score === 0) {
-              service.activityUpdate(serie, episode, q, 4) // 'nothing found'
-              return // no results, abort
-            }
+        function notify(type, key) {
+          if (manual && (type === 'error' || SettingsService.get('notifications.autodownload'))) {
+            // Alerts render plain text, including punctuation in show and provider names.
+            InAppAlerts.show(type, $translate.instant('AUTODOWNLOAD/' + key + '/lbl', context, undefined, undefined, []))
+          }
+        }
 
-            if (requireKeywordsModeOR && filtered.counts.required === 0) {
-              service.activityUpdate(serie, episode, q, 5, ' RK') // 'filtered out RK'
-              return // no results, abort
-            }
+        function noMatch(status, extra) {
+          service.activityUpdate(serie, episode, q, status, extra)
+          notify('info', 'no-results')
+          return 'no-results'
+        }
 
-            if (filtered.counts.ignored === 0) {
-              service.activityUpdate(serie, episode, q, 5, ' IK') // 'filtered out IK'
-              return // no results, abort
-            }
-
-            if (filtered.counts.size === 0) {
-              service.activityUpdate(serie, episode, q, 5, ' MS') // 'filtered out MS'
-              return // no results, abort
-            }
-
-            if (filtered.counts.seeders === 0) {
-              var bestSeeders = filtered.snapshots.size[0]
-              service.activityUpdate(serie, episode, q, 7, bestSeeders.seeders + ' < ' + minSeeders) // 'seeders x < y'
-              return // no results, abort
-            }
-            items = filtered.items
-
-            DuckieTorrent.getClient().AutoConnect().then(function() {
-              var torrentHash = null
-              var debugNotify = function(notificationId) { if (window.debugTSE) console.debug('ADS notify id', notificationId) }
-
-              NotificationService.notify(
-                [serie.name, episode.getFormattedEpisode()].join(' '),
-                [items[0].releasename, 'Download started on', DuckieTorrent.getClient().getName()].join(' ')
-              )
-
-              if (items[0].magnetUrl) {
-                torrentHash = items[0].magnetUrl.getInfoHash()
-                TorrentSearchEngines.launchMagnet(items[0].magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
-                episode.magnetHash = torrentHash
-                episode.Persist().then(function() {
-                  if (window.debugTSE) console.debug('ADS (search=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
-                })
-              } else if (items[0].torrentUrl) {
-                window.parseTorrent.remote(items[0].torrentUrl, function(err, torrentDecoded) {
-                  if (err) {
-                    throw err
-                  }
-                  torrentHash = torrentDecoded.infoHash.getInfoHash()
-                  $injector.get('$http').get(items[0].torrentUrl, {
-                    responseType: 'blob'
-                  }).then(function(result) {
-                    try {
-                      TorrentSearchEngines.launchTorrentByUpload(result.data, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
-                    } catch (E) {
-                      TorrentSearchEngines.launchTorrentByURL(items[0].torrentUrl, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
-                    }
-                    episode.magnetHash = torrentHash
-                    episode.Persist().then(function() {
-                      if (window.debugTSE) console.debug('ADS (search=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
-                    })
-                  })
-                })
-              } else {
-                searchEngine.getDetails(items[0].detailUrl, items[0].releasename).then(function(details) {
-                  if (details.magnetUrl) {
-                    torrentHash = details.magnetUrl.getInfoHash()
-                    TorrentSearchEngines.launchMagnet(details.magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
-                    episode.magnetHash = torrentHash
-                    episode.Persist().then(function() {
-                      if (window.debugTSE) console.debug('ADS (details=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
-                    })
-                  } else if (details.torrentUrl) {
-                    window.parseTorrent.remote(details.torrentUrl, function(err, torrentDecoded) {
-                      if (err) {
-                        throw err
-                      }
-                      torrentHash = torrentDecoded.infoHash.getInfoHash()
-                      $injector.get('$http').get(details.torrentUrl, {
-                        responseType: 'blob'
-                      }).then(function(result) {
-                        try {
-                          TorrentSearchEngines.launchTorrentByUpload(result.data, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
-                        } catch (E) {
-                          TorrentSearchEngines.launchTorrentByURL(details.torrentUrl, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
-                        }
-                        episode.magnetHash = torrentHash
-                        episode.Persist().then(function() {
-                          if (window.debugTSE) console.debug('ADS (details=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
-                        })
-                      })
-                    })
-                  }
-                })
-              }
-              service.activityUpdate(serie, episode, q, 6) // 'torrent launched'
-            })
+        try {
+          var searchString = await SceneNameResolver.getSearchStringForEpisode(serie, episode)
+          q = [searchString, preferredQuality, RequireKeywords_String].join(' ').trim()
+          var results = await searchEngine.search(q, true)
+          if (!Array.isArray(results)) throw new Error('Invalid search response')
+          var items = $filter('orderBy')(results, '-seeders')
+          var sizeMin = serie.customSearchSizeMin !== null ? serie.customSearchSizeMin : globalSizeMin
+          var sizeMax = serie.customSearchSizeMax !== null ? serie.customSearchSizeMax : globalSizeMax
+          var filtered = TorrentResultPolicy.filter(items, {
+            scoreQuery: q,
+            primaryQuery: q,
+            stripSearchPunctuation: false,
+            negativeTermsPass: false,
+            requireAny: requireKeywordsModeOR,
+            requiredKeywords: requireKeywords,
+            ignoredKeywords: ignoreKeywords,
+            sizeMin: sizeMin,
+            sizeMax: sizeMax,
+            minSeedersEnabled: true,
+            minSeeders: minSeeders,
+            deduplicate: false,
+            stages: ['score', 'required', 'ignored', 'size', 'seeders']
           })
-        })
+
+          if (filtered.counts.score === 0) return noMatch(4)
+          if (requireKeywordsModeOR && filtered.counts.required === 0) return noMatch(5, ' RK')
+          if (filtered.counts.ignored === 0) return noMatch(5, ' IK')
+          if (filtered.counts.size === 0) return noMatch(5, ' MS')
+          if (filtered.counts.seeders === 0) return noMatch(7, filtered.snapshots.size[0].seeders + ' < ' + minSeeders)
+
+          stage = 'source'
+          var match = filtered.items[0]
+          var source = match
+          if (!source.magnetUrl && !source.torrentUrl && source.detailUrl) {
+            source = await searchEngine.getDetails(source.detailUrl, match.releasename)
+          }
+          if (!source || (!source.magnetUrl && !source.torrentUrl)) throw new Error('Missing torrent link')
+          var infoHash
+          if (source.magnetUrl) {
+            infoHash = source.magnetUrl.getInfoHash()
+            if (!infoHash) throw new Error('Missing magnet hash')
+          }
+
+          stage = 'client'
+          var client = DuckieTorrent.getClient()
+          context.client = client ? client.getName() : SettingsService.get('torrenting.client')
+          if (!client) throw new Error('The configured torrent client is unavailable')
+          if (!SettingsService.get('torrenting.launch_via_chromium')) await client.AutoConnect()
+          var outcome
+          if (source.magnetUrl) {
+            outcome = await TorrentSearchEngines.launchMagnet(source.magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
+          } else {
+            var download = await TorrentSearchEngines.launchFromTorrentUrl(source.torrentUrl, episode.TRAKT_ID, match.releasename, serie.dlPath, label)
+            infoHash = download.infoHash
+            outcome = download.status
+          }
+
+          stage = 'save'
+          episode.magnetHash = infoHash
+          await episode.Persist()
+          service.activityUpdate(serie, episode, q, 6)
+          if (manual) {
+            notify('success', outcome)
+          } else {
+            NotificationService.notify(context.episode, [match.releasename, 'Download started on', context.client].join(' '))
+          }
+          return outcome
+        } catch (error) {
+          var failedStage = error && error.stage || stage
+          notify('error', failedStage + '-error')
+          console.warn('Auto Download failed during ' + failedStage)
+          return 'failed'
+        }
       },
 
       attach: function() {

@@ -82,8 +82,8 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
   }
 ])
 
-  .controller('fastSearchCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$state', '$injector', 'data', 'FavoritesService', 'FavoritesManager', 'TraktTVv2', 'SeriesListState', 'SidePanelState', 'TorrentSearchEngines', 'SettingsService', 'NotificationService', 'DuckieTorrent',
-    function($rootScope, $scope, $modalInstance, $state, $injector, data, FavoritesService, FavoritesManager, TraktTVv2, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
+  .controller('fastSearchCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$state', 'data', 'FavoritesService', 'FavoritesManager', 'TraktTVv2', 'SeriesListState', 'SidePanelState', 'TorrentSearchEngines', 'SettingsService', 'TorrentDownloadActions', 'AutoDownloadService',
+    function($rootScope, $scope, $modalInstance, $state, data, FavoritesService, FavoritesManager, TraktTVv2, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService, TorrentDownloadActions, AutoDownloadService) {
       $scope.searchprovider = SettingsService.get('torrenting.searchprovider')
       $scope.hasFocus = true
       $scope.model = {
@@ -125,6 +125,10 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
           'templateOptions.placeholder': '"FASTSEARCHjs/placeholder"|translate'
         }
       }]
+
+      $scope.autoDownload = function(episode) {
+        return AutoDownloadService.autoDownload($scope.getSerie(episode), episode, true)
+      }
 
       $scope.getSerie = function(episode) {
         return FavoritesService.getByID_Serie(episode.ID_Serie)
@@ -266,111 +270,14 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
         return FavoritesService.isError(trakt_id)
       }
 
-      // Selects and launches magnet
-      var magnetSelect = function(magnet) {
-        // console.debug("Magnet selected!", magnet);
-        $modalInstance.close(magnet)
-
-        TorrentSearchEngines.launchMagnet(magnet, data.key)
-      }
-
-      var urlSelect = function(url, releasename) {
-        // console.debug("Torrent URL selected!", url);
-        $modalInstance.close(url)
-
-        window.parseTorrent.remote(url, function(err, torrentDecoded) {
-          if (err) {
-            throw err
-          }
-          var infoHash = torrentDecoded.infoHash.getInfoHash()
-          $injector.get('$http').get(url, {
-            responseType: 'blob'
-          }).then(function(result) {
-            try {
-              TorrentSearchEngines.launchTorrentByUpload(result.data, infoHash, data.key, releasename)
-            } catch (E) {
-              TorrentSearchEngines.launchTorrentByURL(url, infoHash, data.key, releasename)
-            }
-          })
+      $scope.select = function(result) {
+        return TorrentDownloadActions.start(result, $scope.searchprovider, data.key).then(function(url) {
+          if (url) $modalInstance.close(url)
         })
       }
 
-      $scope.select = function(result) {
-        NotificationService.notify(result.releasename,
-          'Download started on ' + DuckieTorrent.getClient().getName())
-        if (result.magnetUrl) {
-          // console.debug('using search magnet');
-          return magnetSelect(result.magnetUrl)
-        } else if (result.torrentUrl) {
-          // console.debug('using search torrent');
-          return urlSelect(result.torrentUrl, result.releasename)
-        } else {
-          TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details) {
-            if (details.magnetUrl) {
-              // console.debug('using details magnet');
-              result.magnetUrl = details.magnetUrl
-              return magnetSelect(details.magnetUrl)
-            } else if (details.torrentUrl) {
-              // console.debug('using details torrent');
-              return urlSelect(details.torrentUrl, result.releasename)
-            }
-          })
-        }
-      }
-
-      function openUrl(id, url) {
-        // revert back to using iframe, https://github.com/SchizoDuckie/DuckieTV/issues/1308
-/*        if (SettingsService.isStandalone() && id === 'magnet') {
-          // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
-          nw.Shell.openExternal(url)
-          // console.debug("Open via OS", id, url);
-        } else {*/
-          // for chrome extension, open url on chromium via iframe
-          var d = document.createElement('iframe')
-          d.id = id + 'url_' + new Date().getTime()
-          d.style.visibility = 'hidden'
-          d.src = url
-          document.body.appendChild(d)
-          // console.debug("Open via Chromium", d.id, url);
-          var dTimer = setInterval(function () {
-            var dDoc = d.contentDocument || d.contentWindow.document
-            if (dDoc.readyState == 'complete') {
-              document.body.removeChild(d)
-              clearInterval(dTimer)
-              return
-            }
-          }, 1500)
-//        }
-      }
-
       $scope.submitMagnetLink = function(result) {
-        if (result.magnetUrl) {
-          // we have magnetUrl from search, use it
-          openUrl('magnet', result.magnetUrl)
-        } else {
-          // we don't have magnetUrl from search, fetch from details instead
-          TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details) {
-            if (details.magnetUrl) {
-              result.magnetUrl = details.magnetUrl
-              openUrl('magnet', details.magnetUrl)
-            }
-          })
-        }
-        return result
-      }
-
-      $scope.submitTorrentLink = function(result) {
-        if (result.torrentUrl) {
-          // we have torrentUrl from search, use it
-          openUrl('torrent', result.torrentUrl)
-        } else {
-          // we don't have torrentUrl from search, fetch from details instead
-          TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details) {
-            if (details.torrentUrl) {
-              openUrl('torrent', details.torrentUrl)
-            }
-          })
-        }
+        return TorrentDownloadActions.open(result, $scope.searchprovider, 'magnet')
       }
 
       $scope.search(data.key)

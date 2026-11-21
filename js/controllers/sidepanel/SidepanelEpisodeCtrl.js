@@ -30,7 +30,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ['serie', 'episode', 'season', 'Auto
     }
 
     vm.autoDownload = function() {
-      AutoDownloadService.autoDownload(vm.serie, vm.episode)
+      return AutoDownloadService.autoDownload(vm.serie, vm.episode, true)
     }
 
     vm.torrentSettings = function() {

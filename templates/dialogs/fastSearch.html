@@ -39,9 +39,9 @@
             <td><a ui-sref="episode({episode_id: episode.ID_Episode})">{{episode.episodename}}</a></td>
             <td>{{episode.firstaired |date:'short'}}</td>
             <td>
-            <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')">
+            <div ng-if="episode.hasAired() && getSetting('torrenting.enabled') && getSerie(episode)">
              <torrent-dialog episode="episode" serie="getSerie(episode)"></torrent-dialog>
-             <a class="auto-download" ng-click="fastSearch.autoDownload(sidepanel.serie, episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}"><i class="glyphicon glyphicon-cloud-download"></i></a>
+             <a class="auto-download" ng-click="$event.stopPropagation(); autoDownload(episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}"><i class="glyphicon glyphicon-cloud-download"></i></a>
             </div>
           </tr>
         </table>
@@ -82,9 +82,7 @@
               <a ng-if="seed.noTorrent">
                 <i class="glyphicon glyphicon-download" style="color:gray"></i>
               </a>
-              <!-- sneaky: update the $scope.seed with a dangling ref to the magic hash fetched from a promise.
-                   It's leaking memory until the torrent dialog is closed, won't be much of a problem imo. -->
-              <a ng-if="!seed.noMagnet" ng-href="{{seed.magnetUrl}}" ng-click="seed=submitMagnetLink(seed)">
+              <a ng-if="!seed.noMagnet" ng-href="{{seed.magnetUrl}}" ng-click="$event.preventDefault(); submitMagnetLink(seed)">
                 <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
               </a>
               <a ng-if="seed.noMagnet">
