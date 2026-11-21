@@ -267,7 +267,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
       var doc = parser.parseFromString(data.data, 'text/html')
       var selectors = config.detailsSelectors
       var container = doc.querySelector(selectors.detailsContainer)
-      // console.debug('detailscontainer',container)
+      if (!container) {
+        throw new Error('The torrent details could not be read. The provider page may have changed or the release may have been removed.')
+      }
       var magnet = getPropertyForSelector(container, selectors.magnetUrl)
       var magnetHash = null
       if (magnet) {
