@@ -27,8 +27,11 @@
       <li class="hide-prod" ng-if="getSetting('synology.enabled')" id="actionbar_videoplayer" ui-sref-active="active">
         <a ui-sref="videoplayer" class="glyphicon glyphicon-play" uib-tooltip="Play a downloaded video" tooltip-placement="right"></a>
       </li>
+      <li id="actionbar_autodloverview" ui-sref-active="active">
+        <a ui-sref="autodlOverview" class="glyphicon glyphicon-cloud-download" aria-label="{{'AUTODLOVERVIEW/title' | translate}}" uib-tooltip="{{'AUTODLOVERVIEW/title' | translate}}" tooltip-placement="right" tooltip-append-to-body="true"></a>
+      </li>
       <li id="actionbar_switch" ui-sref-active="active">
-        <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" uib-tooltip="{{'ACTIONBAR/switch-todo-calendar/tooltip'|translate}}" tooltip-placement="right"></a>
+        <a ng-click="actionbar.switchViewMode()" class="glyphicon glyphicon-check" uib-tooltip="{{'ACTIONBAR/switch-todo-calendar/tooltip'|translate}}" tooltip-placement="right"></a>
       </li>
       <li ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.autodownload')" id="actionbar_autodlstatus" ui-sref-active="active">
         <a ui-sref="autodlstatus" class="glyphicon glyphicon-list" uib-tooltip="{{'COMMON/auto-download-status/hdr'|translate}}" tooltip-placement="right"></a>

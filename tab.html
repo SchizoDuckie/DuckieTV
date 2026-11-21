@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/anim.css">
   <link rel="stylesheet" href="css/dialogs.css">
+  <link rel="stylesheet" href="css/auto-download-overview.css">
   <link rel="stylesheet" href="css/flags.css">
   <!-- /deploy:replace -->
   <!-- deploy:replace='<link rel="stylesheet" media="print" href="dist/print.css">' -->
@@ -28,6 +29,7 @@
   </div>
 
   <series-list ui-view="favorites"></series-list>
+  <div ui-view="overview"></div>
   <action-bar></action-bar>
 
   <sidepanel>
@@ -89,6 +91,7 @@
   <script src="js/app.standalone.systray.js"></script>
   <script src="js/app.standalone.zoom.js"></script>
   <script src="js/controllers/BackupDialogCtrl.js"></script>
+  <script src="js/controllers/AutoDownloadOverviewCtrl.js"></script>
   <script src="js/controllers/serieslist/LocalSeriesCtrl.js"></script>
   <script src="js/controllers/serieslist/SeriesListCtrl.js"></script>
   <script src="js/controllers/serieslist/TraktTVSearchCtrl.js"></script>

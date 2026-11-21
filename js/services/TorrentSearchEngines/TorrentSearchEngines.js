@@ -56,6 +56,7 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
 
     function recordSelection(infoHash, TRAKT_ID) {
       $rootScope.$broadcast('torrent:select:' + TRAKT_ID, infoHash)
+      $rootScope.$broadcast('torrent:select', TRAKT_ID, infoHash)
       TorrentHashListService.addToHashList(infoHash)
     }
 
@@ -254,11 +255,11 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         }
       },
 
-      findEpisode: function(serie, episode) {
+      findEpisode: function(serie, episode, selectionChannel = episode.TRAKT_ID) {
         return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
           return dialogs.create(templateName, dialogCtrl, {
             query: searchString,
-            TRAKT_ID: episode.TRAKT_ID,
+            TRAKT_ID: selectionChannel,
             serie: serie,
             episode: episode
           }, {
@@ -300,6 +301,7 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
           return afterClientAdd(client, client.addTorrentByUrl(torrentUrl, infoHash, releaseName, dlPath, label), infoHash, TRAKT_ID)
         }
         openUrl('torrent', torrentUrl)
+        recordSelection(infoHash, TRAKT_ID)
         return $q.when('handed-off')
       },
 

@@ -55,8 +55,8 @@ describe('FavoritesService', function() {
         var end = new Date(2026, 11, 1).getTime() - 1;
         var query;
         spyOn(FavoritesService, 'waitForInitialization').and.resolveTo();
-        CRUD.Find.and.callFake(function(type, filters) {
-            query = new CRUD.Database.SQLBuilder(type, filters).buildQuery();
+        CRUD.Find.and.callFake(function(type, filters, options) {
+            query = new CRUD.Database.SQLBuilder(type, filters, options).buildQuery();
             return Promise.resolve([]);
         });
 
@@ -64,6 +64,11 @@ describe('FavoritesService', function() {
 
         expect(query.query).toContain('Episodes.firstaired BETWEEN ? AND ?');
         expect(query.parameters).toEqual([start, end]);
+        expect(query.query).toContain('LIMIT 0,2000');
+
+        await FavoritesService.getEpisodesForDateRange(start, end, { limit: -1, orderBy: 'firstaired DESC, ID_Episode ASC' });
+        expect(query.query).toContain('ORDER BY Episodes.firstaired DESC, Episodes.ID_Episode ASC');
+        expect(query.query).toContain('LIMIT -1');
     });
 
 

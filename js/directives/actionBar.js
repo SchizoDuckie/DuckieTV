@@ -29,6 +29,14 @@ DuckieTV.directive('actionBar', function() {
           $rootScope.$broadcast('calendar:setdate', new Date())
         }
 
+        this.switchViewMode = function() {
+          if ($state.is('autodlOverview')) {
+            SettingsService.set('main.viewmode', 'todo')
+            return $state.go('calendar')
+          }
+          SettingsService.set('main.viewmode', SettingsService.get('main.viewmode') === 'calendar' ? 'todo' : 'calendar')
+        }
+
         /**
                  * SeriesList state needs to be managed manually because it is stickied and navigating away from
                  * it doesn't actually close the state so reponing it doesn't refire it's resolves.

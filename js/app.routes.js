@@ -436,6 +436,22 @@ DuckieTV.config(['$stateProvider', '$urlRouterProvider',
         }
       })
 
+      .state('autodlOverview', {
+        url: '/auto-download',
+        resolve: {
+          SidePanelState: hideSidePanel,
+          SeriesAddingState: hideAddingList,
+          SeriesListState: hideSeriesList
+        },
+        views: {
+          overview: {
+            templateUrl: 'templates/auto-download-overview.html',
+            controller: 'AutoDownloadOverviewCtrl',
+            controllerAs: 'overview'
+          }
+        }
+      })
+
       .state('autodlstatus', {
         url: '/autodlstatus',
         resolve: {

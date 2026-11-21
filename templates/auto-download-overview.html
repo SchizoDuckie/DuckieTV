@@ -1,0 +1,139 @@
+<main class="auto-download-overview">
+  <header class="overview-mast">
+    <div class="overview-mast-art" ng-if="overview.filters.showImages && overview.groups[0].rows[0].serie.fanart">
+      <img alt="" ng-src="{{overview.groups[0].rows[0].serie.fanart}}">
+    </div>
+    <div class="overview-mast-inner">
+      <div>
+        <h1 translate-once>AUTODLOVERVIEW/title</h1>
+        <p class="overview-subtitle">{{overview.from | date:(overview.from.getFullYear() === overview.to.getFullYear() ? 'd MMMM' : 'd MMMM y')}} – {{overview.to | date:'d MMMM y'}}</p>
+      </div>
+      <div class="overview-range" uib-dropdown is-open="overview.rangeOpen" auto-close="outsideClick" on-toggle="open && overview.editRange()">
+        <button type="button" class="overview-range-button" uib-dropdown-toggle>
+          <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+          <span>{{overview.days ? ('AUTODLOVERVIEW/last-days' | translate:{count: overview.days}) : ('AUTODLOVERVIEW/custom-range' | translate)}}</span>
+          <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right overview-range-menu" uib-dropdown-menu>
+          <h2 translate-once>AUTODLOVERVIEW/air-date-range</h2>
+          <div class="overview-presets">
+            <button type="button" ng-repeat="days in [7, 30, 60, 90]" ng-click="overview.setDays(days)"
+              ng-class="{selected: overview.days === days}">{{'AUTODLOVERVIEW/days' | translate:{count: days} }}</button>
+          </div>
+          <form name="overviewRange" ng-submit="overviewRange.$valid && overview.applyRange()">
+            <label><span translate-once>AUTODLOVERVIEW/from</span>
+              <input type="date" ng-model="overview.draftFrom" required>
+            </label>
+            <label><span translate-once>AUTODLOVERVIEW/to</span>
+              <input type="date" ng-model="overview.draftTo" ng-min="overview.draftFrom" required>
+            </label>
+            <button type="submit" class="overview-apply" ng-disabled="overviewRange.$invalid || overview.draftFrom > overview.draftTo" translate-once>AUTODLOVERVIEW/apply-dates</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="overview-content">
+    <div class="overview-tools">
+      <label class="overview-search">
+        <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+        <input type="search" ng-model="overview.filters.query" ng-change="overview.filter()"
+          placeholder="{{'AUTODLOVERVIEW/search' | translate}}" aria-label="{{'AUTODLOVERVIEW/search' | translate}}">
+      </label>
+      <label><input type="checkbox" ng-model="overview.filters.groupByDay" ng-change="overview.filter()">
+        <span translate-once>AUTODLOVERVIEW/group-by-day</span></label>
+      <span class="overview-rule" aria-hidden="true"></span>
+      <label><input type="checkbox" ng-model="overview.filters.hideDownloaded" ng-change="overview.filter()">
+        <span translate-once>AUTODLOVERVIEW/hide-downloaded</span></label>
+      <label><input type="checkbox" ng-model="overview.filters.hideWatched" ng-change="overview.filter()">
+        <span translate-once>AUTODLOVERVIEW/hide-watched</span></label>
+      <span class="overview-rule" aria-hidden="true"></span>
+      <label><input type="checkbox" ng-model="overview.filters.showImages">
+        <span translate-once>AUTODLOVERVIEW/show-images</span></label>
+    </div>
+    <p class="overview-torrent-setting" ng-if="!getSetting('torrenting.enabled')">
+      <span translate-once>AUTODLOVERVIEW/torrenting-off</span>
+      <a ui-sref="settings.tab({tab: 'torrent'})" translate-once>COMMON/settings/hdr</a>
+    </p>
+    <p class="overview-message" ng-if="overview.loading" translate-once>AUTODLOVERVIEW/loading</p>
+    <div class="overview-message" ng-if="overview.error && !overview.loading">
+      <span translate-once>AUTODLOVERVIEW/load-error</span>
+      <button type="button" class="overview-button" ng-click="overview.reload()" translate-once>AUTODLOVERVIEW/retry</button>
+    </div>
+    <div ng-if="!overview.loading && !overview.error">
+      <div class="overview-summary">
+        <strong>{{(overview.count === 1 ? 'AUTODLOVERVIEW/episode-count-one' : 'AUTODLOVERVIEW/episode-count') | translate:{count: overview.count} }}</strong>
+        <span class="overview-active-count" ng-if="overview.activeCount">{{'AUTODLOVERVIEW/active-count' | translate:{count: overview.activeCount} }}</span>
+      </div>
+      <table class="overview-table" ng-class="{'overview-flat': !overview.filters.groupByDay}">
+        <colgroup>
+          <col ng-if="!overview.filters.groupByDay" class="overview-date-col">
+          <col><col class="overview-status-col"><col class="overview-actions-col">
+        </colgroup>
+        <thead><tr>
+          <th ng-if="!overview.filters.groupByDay" scope="col" translate-once>AUTODLOVERVIEW/air-date</th>
+          <th scope="col" translate-once>AUTODLOVERVIEW/episode</th>
+          <th scope="col" translate-once>AUTODLOVERVIEW/download-status</th>
+          <th scope="col" class="overview-actions-heading" translate-once>AUTODLOVERVIEW/actions</th>
+        </tr></thead>
+        <tbody ng-repeat="group in overview.groups track by (group.day ? group.day.getTime() : 'all')">
+          <tr ng-if="overview.filters.groupByDay" class="overview-day">
+            <th colspan="3" scope="rowgroup">
+              {{group.day | date:'EEEE d MMMM'}}
+              <small>{{(group.count === 1 ? 'AUTODLOVERVIEW/episode-count-one' : 'AUTODLOVERVIEW/episode-count') | translate:{count: group.count} }}</small>
+            </th>
+          </tr>
+          <tr class="overview-episode-row" ng-repeat="row in group.rows track by row.id">
+            <td class="overview-date" ng-if="!overview.filters.groupByDay">{{row.day | date:'d MMM'}}</td>
+            <td>
+              <div class="overview-episode">
+                <span ng-if="overview.filters.showImages" class="overview-thumb">
+                  <i ng-if="!row.image" class="glyphicon glyphicon-film" aria-hidden="true"></i>
+                  <img ng-if="row.image" ng-src="{{row.image}}" alt="" loading="lazy" decoding="async">
+                </span>
+                <div class="overview-episode-text">
+                  <div class="overview-series-name">{{row.serie.name}}</div>
+                  <div class="overview-episode-meta">
+                    <span class="overview-code">{{row.code}}</span>
+                    <span class="overview-meta-separator" aria-hidden="true" ng-if="row.episode.episodename">·</span>
+                    <span class="overview-episode-name" title="{{row.episode.episodename}}">{{row.episode.episodename}}</span>
+                    <i ng-if="row.watched" class="glyphicon glyphicon-eye-open overview-watched" title="{{'AUTODLOVERVIEW/watched' | translate}}" aria-label="{{'AUTODLOVERVIEW/watched' | translate}}"></i>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="overview-status" ng-class="'overview-status-' + row.status">
+                <div class="overview-status-line">
+                  <i ng-if="row.status === 'complete'" class="glyphicon glyphicon-ok" aria-hidden="true"></i>
+                  <span>{{('AUTODLOVERVIEW/status-' + row.status) | translate}}</span>
+                  <span class="overview-percent" ng-if="(row.status === 'downloading' || row.status === 'paused') && row.progress != null">{{row.progress | number:0}}%</span>
+                </div>
+                <div class="overview-track" ng-if="(row.status === 'downloading' || row.status === 'paused') && row.progress != null">
+                  <div ng-style="{width: row.progress + '%'}"></div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="overview-actions">
+                <button type="button" class="overview-button overview-find" ng-click="overview.find(row)" ng-disabled="!getSetting('torrenting.enabled') || !row.canDownload || row.busy"
+                  title="{{'AUTODLOVERVIEW/find-title' | translate}}" aria-label="{{'AUTODLOVERVIEW/find-title' | translate}}">
+                  <i class="glyphicon glyphicon-search" aria-hidden="true"></i><span translate-once>AUTODLOVERVIEW/find</span>
+                </button>
+                <button type="button" class="overview-button overview-auto" ng-click="overview.autoDownload(row)"
+                  ng-disabled="!getSetting('torrenting.enabled') || !row.canDownload || row.busy || row.status === 'downloading' || row.status === 'paused' || row.status === 'pending'"
+                  title="{{'COMMON/auto-download/lbl' | translate}}" aria-label="{{'COMMON/auto-download/lbl' | translate}}">
+                  <i class="glyphicon" ng-class="row.busy ? 'glyphicon-hourglass' : 'glyphicon-cloud-download'" aria-hidden="true"></i><span translate-once>COMMON/auto-download/lbl</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="overview-message" ng-if="!overview.count" translate-once>AUTODLOVERVIEW/no-episodes</p>
+      <div ng-if="overview.hasMore" class="overview-more">
+        <button type="button" class="overview-button" ng-click="overview.loadMore()" translate-once>AUTODLOVERVIEW/load-more</button>
+      </div>
+    </div>
+  </div>
+</main>
