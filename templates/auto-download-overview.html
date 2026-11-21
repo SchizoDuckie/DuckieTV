@@ -112,6 +112,7 @@
                 <div class="overview-track" ng-if="(row.status === 'downloading' || row.status === 'paused') && row.progress != null">
                   <div ng-style="{width: row.progress + '%'}"></div>
                 </div>
+                <div ng-if="row.torrentName" class="overview-torrent-name" title="{{row.torrentName}}" ng-bind="row.torrentName"></div>
               </div>
             </td>
             <td>

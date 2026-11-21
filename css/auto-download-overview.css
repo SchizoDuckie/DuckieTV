@@ -272,7 +272,7 @@ body:has(.auto-download-overview) #actionbar {
 }
 
 .overview-date-col { width: 78px; }
-.overview-status-col { width: clamp(145px, 18%, 205px); }
+.overview-status-col { width: clamp(165px, 23%, 280px); }
 .overview-actions-col { width: 212px; }
 
 .overview-table thead th {
@@ -356,7 +356,7 @@ body:has(.auto-download-overview) #actionbar {
 .overview-meta-separator { color: #747571; }
 .overview-watched { color: #adbea6; }
 .overview-date { font-size: 13px; color: #c9c8c5; }
-.overview-status { max-width: 160px; font-size: 12px; color: #aaa; }
+.overview-status { font-size: 12px; color: #aaa; }
 .overview-status .glyphicon { margin-right: 4px; }
 .overview-status-downloading { color: var(--overview-progress); }
 .overview-status-paused { color: #ceb887; }
@@ -373,6 +373,19 @@ body:has(.auto-download-overview) #actionbar {
 }
 
 .overview-track > div { height: 100%; background: currentColor; }
+
+.overview-torrent-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  margin-top: 5px;
+  color: #b5b4af;
+  font-size: 12px;
+  line-height: 1.25;
+  user-select: text;
+}
 
 .overview-actions {
   display: flex;

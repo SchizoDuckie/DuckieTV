@@ -51,6 +51,7 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       var episode = row.episode
       var hash = episode.magnetHash
       row.progress = null
+      row.torrentName = ''
       row.watched = !!episode.isWatched()
       row.downloaded = !!episode.isDownloaded()
       row.status = row.downloaded ? 'complete' : 'none'
@@ -63,6 +64,11 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       var remote = client && !external && client.isConnected() && client.getRemote()
       var torrent = remote && remote.getByHash(String(hash).toUpperCase())
       if (torrent && torrent.hash) {
+        var name = torrent.getName()
+        // Some clients return the info hash while fetching torrent metadata.
+        if (typeof name === 'string' && name.trim().toLowerCase() !== String(hash).toLowerCase()) {
+          row.torrentName = name.trim()
+        }
         var progress = torrent.getProgress()
         if (progress != null && Number.isFinite(Number(progress))) {
           row.progress = Math.max(0, Math.min(100, Number(progress)))

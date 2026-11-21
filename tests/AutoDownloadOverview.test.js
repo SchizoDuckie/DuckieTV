@@ -1,6 +1,6 @@
 describe('Auto Download Overview', function() {
   var vm, scope, $q, root, requests, favorites, search, autoDownload, alerts
-  var progress, connected, clientName, dialog, show
+  var progress, connected, clientName, torrentName, dialog, show
 
   beforeEach(module('DuckieTV'))
   beforeEach(inject(function($controller, $rootScope, _$q_) {
@@ -10,6 +10,7 @@ describe('Auto Download Overview', function() {
     progress = 0
     connected = true
     clientName = 'Transmission'
+    torrentName = 'ABC'
     requests = []
     show = { ID_Serie: 7, name: 'Big Brother Australia', alias: 'Big Brother AU' }
     favorites = {
@@ -21,7 +22,12 @@ describe('Auto Download Overview', function() {
       })
     }
     var remote = { getByHash: function(hash) {
-      if (hash === 'ABC') return { hash: hash, getProgress: function() { return progress }, isStarted: function() { return true } }
+      if (hash === 'ABC') return {
+        hash: hash,
+        getName: function() { return torrentName },
+        getProgress: function() { return progress },
+        isStarted: function() { return true }
+      }
     } }
     var client = {
       getName: function() { return clientName },
@@ -99,13 +105,16 @@ describe('Auto Download Overview', function() {
   it('updates percentage and filtered membership on client and library events without treating an external handoff as complete', function() {
     complete([episode(1, { magnetHash: 'abc' }), episode(2), episode(3, { downloaded: 1 })])
     var tracked = vm.groups[0].rows[0]
+    expect(tracked.torrentName).toBe('')
     expect([tracked.status, tracked.progress, vm.activeCount]).toEqual(['downloading', 0, 1])
     vm.filters.hideDownloaded = vm.filters.hideWatched = true
     vm.filter()
     progress = 66
+    torrentName = 'Big.Brother.AU.S01E01.1080p'
     root.$broadcast('torrent:update:')
     root.$digest()
     expect(tracked.progress).toBe(66)
+    expect(tracked.torrentName).toBe(torrentName)
     root.$broadcast('episode:marked:watched', episode(2, { watched: 1 }))
     progress = 100
     root.$broadcast('torrent:update:')
@@ -114,6 +123,7 @@ describe('Auto Download Overview', function() {
     connected = false
     root.$digest()
     expect([tracked.status, tracked.progress, vm.count]).toEqual(['offline', null, 1])
+    expect(tracked.torrentName).toBe('')
     clientName = 'None'
     connected = true
     root.$digest()
