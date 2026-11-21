@@ -36,37 +36,10 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', 'SettingsSer
     $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min')
     $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max')
 
-    $scope.usingMultiSE = SettingsService.get('autodownload.multiSE.enabled')
-    $scope.multiSE = SettingsService.get('autodownload.multiSE') // get multi search engines list previously saved
-    $scope.searchProviders.forEach(function(name) {
-      // add any new search engines discovered, default them as active.
-      if (!(name in $scope.multiSE)) {
-        $scope.multiSE[name] = true
-      }
-    })
-    SettingsService.set('autodownload.multiSE', $scope.multiSE) // save updated multiSE list.
-
-    // save multi Search Engine states
-    $scope.saveMultiSE = function() {
-      SettingsService.set('autodownload.multiSE', $scope.multiSE)
-      AutoDownloadService.detach() // recycle AD to pick up changes.
-      AutoDownloadService.attach()
-    }
-
-    /**
-     * Toggle the AutoDownload Multi Search Engines usage
-     */
-    $scope.toggleUsingMultiSE = function() {
-      $scope.usingMultiSE = !$scope.usingMultiSE
-      SettingsService.set('autodownload.multiSE.enabled', $scope.usingMultiSE)
-      AutoDownloadService.detach() // recycle AD to pick up changes.
-      AutoDownloadService.attach()
-    }
-
     /**
      * Inject an event to display mirror resolving progress.
      */
-    $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
+    $scope.$on('tpbmirrorresolver:status', function(evt, status) {
       $scope.tpbmirrorStatus.unshift(status)
     })
 
@@ -287,6 +260,57 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', 'SettingsSer
      */
     $scope.isJackett = function(jse) {
       return (jse in $scope.jackettProviders && $scope.jackettProviders[jse].enabled)
+    }
+  }
+])
+
+DuckieTV.controller('AutoDownloadProvidersCtrl', ['$scope', 'SettingsService', 'TorrentSearchEngines',
+  function($scope, SettingsService, TorrentSearchEngines) {
+    var vm = this
+
+    function refresh() {
+      var saved = SettingsService.get('autodownload.providers')
+      vm.registered = Object.keys(TorrentSearchEngines.getSearchEngines())
+      vm.order = Array.isArray(saved) && saved.length
+        ? Array.from(new Set(saved)).filter(function(name) { return typeof name === 'string' && name.trim() })
+        : TorrentSearchEngines.getAutoDownloadProviders()
+      vm.available = vm.registered.filter(function(name) {
+        return !vm.order.includes(name)
+      }).sort()
+      vm.custom = Array.isArray(saved) || SettingsService.get('autodownload.multiSE.enabled')
+      vm.toAdd = null
+    }
+
+    // Jackett engines can register after the settings panel opens.
+    $scope.$watchCollection(TorrentSearchEngines.getSearchEngines, refresh)
+    $scope.$watch(TorrentSearchEngines.getDefaultEngineName, function(name, previous) {
+      if (name !== previous) refresh()
+    })
+
+    function save(names) {
+      SettingsService.set('autodownload.providers', names)
+      refresh()
+    }
+
+    vm.add = function(name) {
+      if (vm.available.includes(name)) save(vm.order.concat(name))
+    }
+
+    vm.move = function(index, offset) {
+      var target = index + offset
+      if (target < 0 || target >= vm.order.length) return
+      var names = vm.order.slice()
+      names.splice(target, 0, names.splice(index, 1)[0])
+      save(names)
+    }
+
+    vm.remove = function(name) {
+      if (vm.order.length > 1) save(vm.order.filter(function(provider) { return provider !== name }))
+    }
+
+    vm.reset = function() {
+      if (SettingsService.get('autodownload.multiSE.enabled')) SettingsService.set('autodownload.multiSE.enabled', false)
+      save(null)
     }
   }
 ])

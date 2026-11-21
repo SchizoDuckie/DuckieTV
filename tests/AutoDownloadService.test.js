@@ -8,7 +8,8 @@ describe('episode Auto Download outcomes', function() {
     desktop = jasmine.createSpy('desktop notification')
     search = { config: { name: 'Example provider' }, search: jasmine.createSpy('search'), getDetails: jasmine.createSpy('details') }
     engines = {
-      getDefaultEngine: function() { return search },
+      getAutoDownloadProviders: jasmine.createSpy('provider order').and.returnValue(['Example provider']),
+      getSearchEngine: jasmine.createSpy('get engine').and.returnValue(search),
       launchMagnet: jasmine.createSpy('launch magnet').and.returnValue(Promise.resolve('accepted'))
     }
     client = { getName: function() { return 'Example client' }, AutoConnect: jasmine.createSpy('connect').and.returnValue(Promise.resolve()) }
@@ -106,6 +107,62 @@ describe('episode Auto Download outcomes', function() {
     expectAlert('error', 'save-error')
   })
 
+  it('tries selected providers in order, applying filters, and reports only the final outcome', async function() {
+    var attempted = []
+    engines.getAutoDownloadProviders.and.returnValue(['Empty', 'Few seeds', 'Offline', 'Works', 'Later'])
+    engines.getSearchEngine.and.callFake(function(name) {
+      return { search: async function() {
+        attempted.push(name)
+        if (name === 'Empty') return []
+        if (name === 'Few seeds') return [Object.assign({}, match, { seeders: 1 })]
+        if (name === 'Offline') throw new Error('unavailable')
+        return [match]
+      } }
+    })
+    series.searchProvider = 'Empty'
+    expect(await service.autoDownload(series, episode, true)).toBe('accepted')
+    expect(engines.getAutoDownloadProviders).toHaveBeenCalledWith('Empty')
+    expect(attempted).toEqual(['Empty', 'Few seeds', 'Offline', 'Works'])
+    expect(engines.launchMagnet).toHaveBeenCalledTimes(1)
+    expect(alerts).toHaveBeenCalledTimes(1)
+    expectAlert('success', 'accepted')
+    expect(service.activityList.map(function(row) { return row.searchProvider })).toEqual([' (Empty)', ' (Few seeds)', ' (Works)'])
+  })
+
+  it('continues after unreadable release details but never retries an unconfirmed client submission', async function() {
+    engines.getAutoDownloadProviders.and.returnValue(['Broken links', 'Working link', 'Later'])
+    engines.getSearchEngine.and.callFake(function(name) {
+      if (name !== 'Broken links') return search
+      return {
+        search: async function() { return [Object.assign({}, match, { magnetUrl: null, detailUrl: '/missing' })] },
+        getDetails: async function() { throw new Error('bad details') }
+      }
+    })
+    engines.launchMagnet.and.callFake(async function() { throw new Error('client response lost') })
+    expect(await service.autoDownload(series, episode, true)).toBe('failed')
+    expect(engines.getSearchEngine.calls.allArgs()).toEqual([['Broken links'], ['Working link']])
+    expect(engines.launchMagnet).toHaveBeenCalledTimes(1)
+    expect(alerts).toHaveBeenCalledTimes(1)
+    expectAlert('error', 'client-error')
+  })
+
+  it('reports one outcome after exhausting the list and identifies a partial search failure', async function() {
+    engines.getAutoDownloadProviders.and.returnValue(['First', 'Second'])
+    search.search.and.returnValue(Promise.resolve([]))
+    expect(await service.autoDownload(series, episode, true)).toBe('no-results')
+    expect(alerts).toHaveBeenCalledTimes(1)
+    expectAlert('info', 'no-results')
+    alerts.calls.reset()
+    search.search.and.callFake(async function() {
+      if (search.search.calls.count() === 3) throw new Error('offline')
+      return []
+    })
+    expect(await service.autoDownload(series, episode, true)).toBe('failed')
+    expect(alerts).toHaveBeenCalledTimes(1)
+    expectAlert('error', 'search-error')
+    expect(engines.launchMagnet).not.toHaveBeenCalled()
+  })
+
   it('respects manual notification preferences and keeps scheduled results out of the GUI', async function() {
     settings['notifications.autodownload'] = false
     await service.autoDownload(series, episode, true)
@@ -120,6 +177,94 @@ describe('episode Auto Download outcomes', function() {
     search.search.and.callFake(function() { return Promise.reject(new Error('unavailable')) })
     await service.autoDownload(series, episode)
     expect(alerts).not.toHaveBeenCalled()
+  })
+})
+
+describe('scheduled Auto Download scan', function() {
+  var client, favorite, episodes, favorites, settings, service, rootScope
+  beforeEach(module('DuckieTV', function($provide) {
+    client = { isConnected: function() { return true }, AutoConnect: async function() { return { torrents: {} } } }
+    favorite = { ID_Serie: 7, name: 'Show', TVDB_ID: 101, autoDownload: 1, displaycalendar: 1 }
+    var candidate = {
+      ID_Serie: 7, watchedAt: null, magnetHash: null, firstaired: null,
+      getFormattedEpisode: function() { return 'S01E01' }, isDownloaded: function() { return false }
+    }
+    episodes = [candidate, Object.assign({}, candidate, { ID_Serie: '7' }), Object.assign({}, candidate, { ID_Serie: 99 })]
+    favorites = { favorites: [favorite], getEpisodesForDateRange: jasmine.createSpy('episode range').and.returnValue(Promise.resolve(episodes)) }
+    settings = { 'torrenting.autodownload': true, 'autodownload.period': 1, 'autodownload.delay': 15 }
+    $provide.value('DuckieTorrent', { getClient: function() { return client } })
+    $provide.value('FavoritesService', favorites)
+    $provide.value('SettingsService', { get: function(key) { return settings[key] }, set: function(key, value) { settings[key] = value } })
+  }))
+  beforeEach(inject(function(AutoDownloadService, $rootScope) {
+    service = AutoDownloadService
+    rootScope = $rootScope
+  }))
+  afterEach(function() { service.detach() })
+
+  it('uses cached series across a batch of episodes, handling unknown air dates and orphan episodes', async function() {
+    spyOn(CRUD, 'FindOne')
+    spyOn(service, 'autoDownload')
+    await service.autoDownloadCheck()
+    expect(service.autoDownload.calls.allArgs()).toEqual([[favorite, episodes[0]], [favorite, episodes[1]]])
+    expect(favorites.getEpisodesForDateRange).toHaveBeenCalledTimes(1)
+    expect(CRUD.FindOne).not.toHaveBeenCalled()
+  })
+
+  it('drops pending scan results when disabled and removes the connection listener on detach', async function() {
+    var resolve, started
+    var waiting = new Promise(function(signal) { started = signal })
+    favorites.getEpisodesForDateRange.and.callFake(function() {
+      started()
+      return new Promise(function(finish) { resolve = finish })
+    })
+    spyOn(service, 'autoDownload')
+    var pending = service.autoDownloadCheck()
+    await waiting
+    service.detach()
+    resolve(episodes)
+    await pending
+    expect(service.autoDownload).not.toHaveBeenCalled()
+
+    spyOn(service, 'autoDownloadCheck')
+    service.attach()
+    service.detach()
+    service.attach()
+    rootScope.$broadcast('torrentclient:connected')
+    expect(service.autoDownloadCheck).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('Auto Download provider preferences', function() {
+  var engines, settings
+  beforeEach(module('DuckieTV', function($provide) {
+    settings = {}
+    $provide.value('SettingsService', { get: function(key) { return settings[key] } })
+  }))
+  beforeEach(inject(function(TorrentSearchEngines) {
+    engines = TorrentSearchEngines
+    var names = ['Default', 'Show override', 'Second']
+    names.forEach(function(name) {
+      engines.registerSearchEngine(name, { config: {} })
+    })
+    engines.setDefault('Default')
+  }))
+
+  it('keeps an existing single provider or show override and reads legacy multi-engine choices', function() {
+    expect(engines.getAutoDownloadProviders()).toEqual(['Default'])
+    expect(engines.getAutoDownloadProviders('Show override')).toEqual(['Show override'])
+    expect(engines.getAutoDownloadProviders('Removed')).toEqual(['Default'])
+    settings['autodownload.multiSE.enabled'] = true
+    settings['autodownload.multiSE'] = { 'Default': true, 'Removed': true, 'Second': true, 'Show override': false }
+    expect(engines.getAutoDownloadProviders()).toEqual(['Default', 'Second'])
+  })
+
+  it('keeps the saved order, prioritizes the show override once and skips disabled providers', function() {
+    settings['autodownload.providers'] = ['Second', 'Show override', 'Second', 'Removed', 'Default']
+    expect(engines.getAutoDownloadProviders()).toEqual(['Second', 'Show override', 'Default'])
+    expect(engines.getAutoDownloadProviders('Show override')).toEqual(['Show override', 'Second', 'Default'])
+    settings['autodownload.providers'] = ['Removed']
+    expect(engines.getAutoDownloadProviders()).toEqual([])
   })
 })
 

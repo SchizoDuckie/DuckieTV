@@ -2844,6 +2844,42 @@ sidepanel .seasons serieheader {
   font-weight: normal;
 }
 
+.settings .autodownload-providers ol {
+  padding-left: 2em;
+  margin-bottom: 8px;
+}
+
+.provider-order-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.provider-order-row > span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.settings .autodownload-providers .btn {
+  display: inline-block;
+  margin: 0;
+  font: inherit;
+}
+
+.settings .provider-order-row .btn {
+  padding: 3px 6px;
+  line-height: 1.1;
+}
+
+.settings .autodownload-providers select {
+  height: auto;
+  max-width: 100%;
+  padding: 4px 6px;
+  font: inherit;
+}
+
 .settings .autodownload form {
   text-align: center;
 }

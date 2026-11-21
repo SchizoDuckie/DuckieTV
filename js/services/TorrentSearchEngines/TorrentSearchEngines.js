@@ -157,6 +157,25 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         }
       },
 
+      // A show's preferred engine leads an explicit list. Without one, keep the
+      // original single-engine behavior where the show overrides the default.
+      getAutoDownloadProviders: function(showProvider) {
+        var configured = SettingsService.get('autodownload.providers')
+        var names
+        if (Array.isArray(configured) && configured.length) {
+          names = [showProvider].concat(configured)
+        } else if (SettingsService.get('autodownload.multiSE.enabled')) {
+          var legacy = SettingsService.get('autodownload.multiSE') || {}
+          names = [showProvider, defaultEngineName].concat(Object.keys(legacy).filter(function(name) { return legacy[name] }))
+        } else {
+          var hasOverride = Object.prototype.hasOwnProperty.call(activeEngines, showProvider)
+          names = [hasOverride ? showProvider : defaultEngineName]
+        }
+        return Array.from(new Set(names)).filter(function(name) {
+          return typeof name === 'string' && Object.prototype.hasOwnProperty.call(activeEngines, name)
+        })
+      },
+
       // return all native SEs
       getNativeEngines: function() {
         return nativeEngines
@@ -184,8 +203,9 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
 
       // set the default SE by name
       setDefault: function(name) {
-        if (name in activeEngines) {
+        if (name !== defaultEngineName && name in activeEngines) {
           defaultEngineName = name
+          $rootScope.$evalAsync() // Startup can resolve the configured default outside Angular.
         }
       },
 

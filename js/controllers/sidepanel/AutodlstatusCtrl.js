@@ -66,8 +66,9 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
 
     var getActivity = function() {
       var jackettProviders = TorrentSearchEngines.getJackettEngines()
-      var defaultSE = TorrentSearchEngines.getDefaultEngineName()
-      $scope.searchEngine = (defaultSE in jackettProviders && jackettProviders[defaultSE].enabled) ? defaultSE + ' [Jackett]' : SettingsService.get('torrenting.searchprovider')
+      $scope.searchEngine = TorrentSearchEngines.getAutoDownloadProviders().map(function(name) {
+        return jackettProviders[name] && jackettProviders[name].enabled ? name + ' [Jackett]' : name
+      }).join(' → ')
       $scope.activityList = AutoDownloadService.activityList
       $scope.lastRun = SettingsService.get('autodownload.lastrun')
       if ($scope.isActive()) {
@@ -81,19 +82,12 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
         angular.forEach($scope.activityList, function(activity) {
           if (activity.status > 2) { // only interested in not-found, filtered-out, seeders-min, no-magnet
             var traktid = activity.episode.TRAKT_ID
-            var episodeid = activity.episode.ID_Episode
-            if ($scope.onMagnet.indexOf(traktid) == -1) { // don't set $on if we've already done it
-              CRUD.FindOne('Episode', {'ID_Episode': episodeid}).then(function(episode) {
-                if (!episode) {
-                  console.warn('episode id=[%s] not found!', episodeid)
-                } else {
-                  $scope.$on('torrent:select:' + traktid, function(evt, magnet) {
-                    episode.magnetHash = magnet
-                    episode.downloaded = 0
-                    episode.Persist()
-                  })
-                  $scope.onMagnet.push(traktid)
-                }
+            if ($scope.onMagnet.indexOf(traktid) === -1) {
+              $scope.onMagnet.push(traktid)
+              $scope.$on('torrent:select:' + traktid, function(evt, magnet) {
+                activity.episode.magnetHash = magnet
+                activity.episode.downloaded = 0
+                activity.episode.Persist()
               })
             }
           }
@@ -110,7 +104,6 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
     $scope.requireKeywords = SettingsService.get('torrenting.require_keywords')
     $scope.ignoreKeywords = SettingsService.get('torrenting.ignore_keywords')
     $scope.preferredQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality')
-    $scope.searchEngine = SettingsService.get('torrenting.searchprovider')
     $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max')
     $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min')
     $scope.period = $scope.period + ' ' + dayLbl

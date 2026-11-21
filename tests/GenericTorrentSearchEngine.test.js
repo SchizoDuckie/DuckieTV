@@ -67,6 +67,29 @@ describe('GenericTorrentSearchEngine', function() {
         expect(error).toContain('net::ERR_NO_RESPONSE');
     });
 
+    it('cancels interactive searches independently of an overlapping Auto Download and its mirror retry', function() {
+        var foreground = $q.defer();
+        var background = $q.defer();
+        http.and.returnValues(foreground.promise, background.promise, $q.when({ data: '<html></html>' }));
+        mirrorResolver.findMirror.and.returnValue($q.when('https://new.example'));
+
+        engine.search('interactive');
+        engine.search('automatic', true);
+        var interactiveRequest = http.calls.argsFor(0)[0].timeout;
+        var autoRequest = http.calls.argsFor(1)[0].timeout;
+        var interactiveCancelled = false;
+        var autoCancelled = false;
+        interactiveRequest.then(function() { interactiveCancelled = true; });
+        autoRequest.then(function() { autoCancelled = true; });
+        engine.cancelActiveRequest();
+        background.reject({ status: 500 });
+        $rootScope.$digest();
+
+        expect(interactiveCancelled).toBe(true);
+        expect(autoCancelled).toBe(false);
+        expect(http.calls.argsFor(2)[0].timeout).toBe(autoRequest);
+    });
+
     it('returns the mirror retry and limits resolution to one attempt', function() {
         http.and.returnValues(
             $q.reject({ status: 500 }),

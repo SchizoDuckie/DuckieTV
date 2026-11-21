@@ -298,13 +298,16 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
    */
   this.search = function(what, noCancel, orderBy) {
     what = what.replace(/'/g, '')
-    if (noCancel !== true && activeRequest) {
-      activeRequest.resolve()
+    var request = $q.defer()
+    // Interactive searches can replace one another. Each Auto Download keeps
+    // its own request across retries and continues when a search dialog closes.
+    if (noCancel !== true) {
+      if (activeRequest) activeRequest.resolve()
+      activeRequest = request
     }
-    activeRequest = $q.defer()
 
     function execute(allowMirrorRetry) {
-      return self.executeSearch(what, activeRequest, orderBy).then(parseSearch).catch(function(err) {
+      return self.executeSearch(what, request, orderBy).then(parseSearch).catch(function(err) {
         if (err.status === -1) {
           throw 'net::ERR_NO_RESPONSE. ' + viewlog + ' for details.'
         }
