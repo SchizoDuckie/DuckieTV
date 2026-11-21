@@ -28,9 +28,14 @@
 
 .modal-content {
     background-color: rgba(20,20,20,0.97);
-    padding: var(--panel-inset);
+    padding: 10px;
     border: 1px solid white;
     color: white;
+}
+
+.scale-small .modal-content {
+    --dialog-title-size: calc(var(--heading-size) + 4px);
+    padding: var(--panel-inset);
 }
 
 .modal-content strong {
@@ -47,7 +52,7 @@
     margin: 0 0 var(--panel-inset);
     padding-right: calc(var(--control-height) + 6px);
     color: white;
-    font-size: calc(var(--heading-size) + 4px);
+    font-size: var(--dialog-title-size, 36px);
     line-height: var(--control-height);
     overflow-wrap: anywhere;
 }
@@ -69,8 +74,13 @@
 .search-dialog-header > h2 {
     margin: 0;
     padding: 0;
-    font-size: calc(var(--heading-size) + 4px);
+    font-size: var(--dialog-title-size, 36px);
     line-height: var(--control-height);
+}
+
+.modal-content > .close + h2,
+.search-dialog-header > h2 {
+    font-size: var(--dialog-title-size, 30px);
 }
 
 .search-dialog-actions {

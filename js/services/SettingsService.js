@@ -53,7 +53,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'LocaleRegistry',
         'deluge.port': 8112,
         'deluge.server': 'http://localhost',
         'deluge.use_auth': true,
-        'display.density': 'cozy',
+        'display.scale': 'normal',
         'download.ratings': true,
         'episode.watched-downloaded.pairing': true,
         'font.bebas.enabled': true,
@@ -221,9 +221,17 @@ DuckieTV.factory('SettingsService', ['$injector', 'LocaleRegistry',
       restore: function () {
         if (!localStorage.getItem('userPreferences')) {
           service.defaults['topSites.enabled'] = (!service.isStandalone() && 'chrome' in window && 'topSites' in (window.chrome))
-          service.settings = service.defaults
+          service.settings = angular.copy(service.defaults)
         } else {
           service.settings = angular.fromJson(localStorage.getItem('userPreferences'))
+          if ('display.density' in service.settings) {
+            var density = service.settings['display.density']
+            if (!('display.scale' in service.settings) && (density === 'cozy' || density === 'dense')) {
+              service.settings['display.scale'] = 'small'
+            }
+            delete service.settings['display.density']
+            service.persist()
+          }
           if (service.isStandalone()) {
             service.settings['topSites.enabled'] = false
           }

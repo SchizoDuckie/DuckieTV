@@ -1,8 +1,21 @@
 <div ng-controller="DisplayCtrl" class="buttons">
-  <h2 translate-once>SETTINGS/DISPLAY/density/hdr</h2>
-  <div class="density-options" role="group" aria-label="{{'SETTINGS/DISPLAY/density/hdr'|translate}}">
-    <button type="button" data-density="cozy" ng-attr-aria-pressed="{{getSetting('display.density') !== 'dense'}}" ng-click="setSetting('display.density', 'cozy')" translate-once>SETTINGS/DISPLAY/density-cozy/lbl</button>
-    <button type="button" data-density="dense" ng-attr-aria-pressed="{{getSetting('display.density') === 'dense'}}" ng-click="setSetting('display.density', 'dense')" translate-once>SETTINGS/DISPLAY/density-dense/lbl</button>
+  <h2 translate-once>SETTINGS/DISPLAY/scale/hdr</h2>
+  <div class="scale-options" role="group" aria-label="{{'SETTINGS/DISPLAY/scale/hdr'|translate}}">
+    <button type="button" data-scale="small" ng-attr-aria-pressed="{{getSetting('display.scale') === 'small'}}" ng-click="setSetting('display.scale', 'small')" translate-once>SETTINGS/DISPLAY/scale-small/lbl</button>
+    <button type="button" data-scale="normal" ng-attr-aria-pressed="{{getSetting('display.scale') !== 'small'}}" ng-click="setSetting('display.scale', 'normal')" translate-once>SETTINGS/DISPLAY/scale-normal/lbl</button>
+  </div>
+
+  <hr class="setting-divider">
+  <h2 translate-once>SETTINGS/DISPLAY/in-app-alerts/hdr</h2>
+  <div class="alert-preferences">
+    <label>
+      <input type="checkbox" ng-checked="getSetting('notifications.inapp')" ng-click="setSetting('notifications.inapp', !getSetting('notifications.inapp'))">
+      <span translate-once>SETTINGS/DISPLAY/show-in-app-alerts/lbl</span>
+    </label>
+    <label>
+      <input type="checkbox" ng-checked="getSetting('notifications.autodownload')" ng-disabled="!getSetting('notifications.inapp')" ng-click="setSetting('notifications.autodownload', !getSetting('notifications.autodownload'))">
+      <span translate-once>SETTINGS/DISPLAY/autodownload-alerts/lbl</span>
+    </label>
   </div>
 
   <div ng-show="hasTopSites">
@@ -99,21 +112,6 @@
     </li>
   </ul>
   <br>
-
-  <hr class="setting-divider">
-  <h2 translate-once>SETTINGS/DISPLAY/in-app-alerts/hdr</h2>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" ng-checked="getSetting('notifications.inapp')" ng-click="setSetting('notifications.inapp', !getSetting('notifications.inapp'))">
-      <span translate-once>SETTINGS/DISPLAY/show-in-app-alerts/lbl</span>
-    </label>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" ng-checked="getSetting('notifications.autodownload')" ng-disabled="!getSetting('notifications.inapp')" ng-click="setSetting('notifications.autodownload', !getSetting('notifications.autodownload'))">
-      <span translate-once>SETTINGS/DISPLAY/autodownload-alerts/lbl</span>
-    </label>
-  </div>
 
   <div ng-show="hasNotifications">
     <hr class="setting-divider">
