@@ -2520,10 +2520,39 @@ sidepanel .buttons .two-face-torrent .auto-download {
   text-decoration: none;
 }
 
-sidepanel .buttons .two-face-torrent .torrent-settings {
-  padding-left: 10px;
-  padding-right: 10px;
-  margin: 0;
+sidepanel .episode-torrent-actions {
+  display: flex;
+  gap: 6px;
+}
+
+sidepanel .buttons .episode-torrent-actions > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+sidepanel .buttons .episode-torrent-find {
+  flex: 1;
+  min-width: 0;
+  gap: 8px;
+  margin-right: 0;
+}
+
+sidepanel .buttons .episode-torrent-auto,
+sidepanel .buttons .episode-torrent-settings {
+  flex: 0 0 calc(var(--control-height) + 4px);
+  margin-left: 0;
+  padding-inline: 0;
+}
+
+sidepanel .buttons .episode-torrent-auto {
+  margin-right: 0;
+}
+
+sidepanel .buttons .episode-torrent-actions .glyphicon {
+  top: 0;
+  float: none;
 }
 
 sidepanel .buttons .torrent-mini-remote-control>span {
@@ -3304,10 +3333,6 @@ ng-dial-gauge {
   }
   :where(body:not(.scale-small)) sidepanel .buttons .two-face-torrent .auto-download {
     padding: 8px;
-    height: 43px;
-  }
-  :where(body:not(.scale-small)) sidepanel .buttons .two-face-torrent .torrent-settings {
-    padding: 8px 10px;
     height: 43px;
   }
   sidepanel .leftpanel .episode-img {

@@ -49,36 +49,25 @@
     <p ng-click="sidepanel.markLeaked()" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'><pcont translate-once>SIDEPANEL/EPISODE-DETAILS/leak-override/lbl</pcont>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
     </th>
     </tr>
-    <tr>
-      <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())" style="position:relative">
-        <table style="width:100%;margin: 5px 0px 5px 0px">
-          <tr>
-            <td ng-if="sidepanel.serie.TVDB_ID" style="width:100%;padding-left:15px">
-              <torrent-dialog class="download" episode='sidepanel.episode' serie="sidepanel.serie">
-                <strong style="padding-left:21px" translate-once>SIDEPANEL/EPISODE-DETAILS/find-torrent/btn</strong>
-              </torrent-dialog>
-            </td>
-            <td ng-if="!sidepanel.serie.TVDB_ID" style="width:100%;padding-left:15px">
-                <a class="download btn btn-danger" href='https://github.com/SchizoDuckie/DuckieTV/wiki/FAQ#why-is-the-episode-find-a-torrent-button-not-working' target='_blank'>
-                  <i class="glyphicon glyphicon-ban-circle"></i><strong style="display:flex">&nbsp;<del>&nbsp;TVDB_ID&nbsp;</del>&nbsp;<i class="glyphicon glyphicon-info-sign"></i></strong>
-                </a>
-            </td>
-            <td ng-if="sidepanel.serie.TVDB_ID" style="padding-right:6px">
-              <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}">
-                <i class="glyphicon glyphicon-cloud-download"></i><strong style="display:flex">&nbsp;</strong>
-              </a>
-            <td ng-if="!sidepanel.serie.TVDB_ID" style="padding-right:6px">
-              <a class="auto-download btn btn-danger" href='https://github.com/SchizoDuckie/DuckieTV/wiki/FAQ#why-is-the-episode-find-a-torrent-button-not-working' target='_blank'>
-                <i class="glyphicon glyphicon-ban-circle"></i><strong style="display:flex">&nbsp;</strong>
-              </a>
-            </td>
-            <td style="padding-right:15px">
-              <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)" uib-tooltip="{{'COMMON/settings/lbl'|translate}}{{sidepanel.serie.name}}">
-                <i class="glyphicon glyphicon-cog"></i><strong style="display:flex">&nbsp;</strong>
-              </a>
-            </td>
-          </tr>
-        </table>
+    <tr ng-if="getSetting('torrenting.enabled') && (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())">
+      <td colspan="2">
+        <div class="episode-torrent-actions">
+          <torrent-dialog ng-if="sidepanel.serie.TVDB_ID" class="episode-torrent-find" episode="sidepanel.episode" serie="sidepanel.serie">
+            <span translate-once>SIDEPANEL/EPISODE-DETAILS/find-torrent/btn</span>
+          </torrent-dialog>
+          <a ng-if="!sidepanel.serie.TVDB_ID" class="episode-torrent-find btn btn-danger" href="https://github.com/SchizoDuckie/DuckieTV/wiki/FAQ#why-is-the-episode-find-a-torrent-button-not-working" target="_blank">
+            <i class="glyphicon glyphicon-ban-circle"></i><strong><del>TVDB_ID</del></strong><i class="glyphicon glyphicon-info-sign"></i>
+          </a>
+          <a ng-if="sidepanel.serie.TVDB_ID" class="episode-torrent-auto" ng-click="sidepanel.autoDownload()" aria-label="{{'COMMON/auto-download/lbl'|translate}}" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}">
+            <i class="glyphicon glyphicon-cloud-download"></i>
+          </a>
+          <a ng-if="!sidepanel.serie.TVDB_ID" class="episode-torrent-auto btn btn-danger" href="https://github.com/SchizoDuckie/DuckieTV/wiki/FAQ#why-is-the-episode-find-a-torrent-button-not-working" target="_blank" aria-label="{{'SIDEPANEL/EPISODE-DETAILS/find-torrent/btn'|translate}} (TVDB_ID)">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+          </a>
+          <a class="episode-torrent-settings" ng-click="sidepanel.torrentSettings()" aria-label="{{'COMMON/settings/lbl'|translate}}{{sidepanel.serie.name}}" uib-tooltip="{{'COMMON/settings/lbl'|translate}}{{sidepanel.serie.name}}">
+            <i class="glyphicon glyphicon-cog"></i>
+          </a>
+        </div>
       </td>
     </tr>
     <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
