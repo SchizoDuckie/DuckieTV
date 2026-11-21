@@ -93,6 +93,21 @@
   </ul>
   <br>
 
+  <hr class="setting-divider">
+  <h2 translate-once>SETTINGS/DISPLAY/in-app-alerts/hdr</h2>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-checked="getSetting('notifications.inapp')" ng-click="setSetting('notifications.inapp', !getSetting('notifications.inapp'))">
+      <span translate-once>SETTINGS/DISPLAY/show-in-app-alerts/lbl</span>
+    </label>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-checked="getSetting('notifications.autodownload')" ng-disabled="!getSetting('notifications.inapp')" ng-click="setSetting('notifications.autodownload', !getSetting('notifications.autodownload'))">
+      <span translate-once>SETTINGS/DISPLAY/autodownload-alerts/lbl</span>
+    </label>
+  </div>
+
   <div ng-show="hasNotifications">
     <hr class="setting-divider">
     <h2>

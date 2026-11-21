@@ -80,6 +80,8 @@ DuckieTV.factory('SettingsService', ['$injector', 'LocaleRegistry',
         'mirror.ThePirateBay': 'https://thepiratebay0.org/',
         'mirror.TorrentDownloads': 'https://www.torrentdownloads.pro',
         'mirror.Uindex': 'https://uindex.org',
+        'notifications.inapp': true,
+        'notifications.autodownload': true,
         'notifications.enabled': true, // chrome notifications for download started/finished
         'qbittorrent32plus.password': 'admin',
         'qbittorrent32plus.port': 8080,

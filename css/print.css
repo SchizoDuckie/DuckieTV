@@ -8,7 +8,7 @@ body>.container {
   padding: 0;
 }
 
-chrome-top-sites, series-list {
+chrome-top-sites, series-list, in-app-alerts {
   display: none;
 }
 

@@ -1,0 +1,10 @@
+<div aria-live="polite" aria-relevant="additions">
+  <button type="button" class="in-app-alert" ng-repeat="item in alerts.items" ng-class="::item.type"
+    ng-click="alerts.dismiss(item)" title="{{'COMMON/close/btn' | translate}}">
+    <i class="glyphicon" ng-class="::item.icon" aria-hidden="true"></i>
+    <span class="sr-only">{{('INAPPALERTS/' + item.type + '/lbl') | translate}}</span>
+    <span class="in-app-alert-message" ng-bind="::item.message"></span>
+    <span class="sr-only">{{'COMMON/close/btn' | translate}}</span>
+    <span class="in-app-alert-close" aria-hidden="true">&times;</span>
+  </button>
+</div>

@@ -2114,6 +2114,62 @@ calendar-event h2 {
   transform: translateX(0);
 }
 
+in-app-alerts {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  z-index: 10001;
+  pointer-events: none;
+}
+
+.query-monitor.show ~ in-app-alerts {
+  bottom: 96px;
+}
+
+.in-app-alert {
+  --alert-color: #83caff;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border: 1px solid #555;
+  border-left: 4px solid var(--alert-color);
+  border-radius: 4px;
+  background: #252729;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .35);
+  color: #fff;
+  font: inherit;
+  line-height: 1.4;
+  text-align: left;
+  pointer-events: auto;
+}
+
+.in-app-alert.success { --alert-color: #8cda9a; }
+.in-app-alert.warning { --alert-color: #f6cb73; }
+.in-app-alert.error { --alert-color: #ff9995; }
+.in-app-alert > .glyphicon { color: var(--alert-color); }
+.in-app-alert-message { flex: 1; overflow-wrap: anywhere; }
+.in-app-alert-close { color: #ccc; }
+.in-app-alert:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .in-app-alert.ng-enter, .in-app-alert.ng-leave {
+    transition: transform 180ms ease-out, opacity 180ms ease-out;
+  }
+  .in-app-alert.ng-enter, .in-app-alert.ng-leave.ng-leave-active {
+    opacity: 0;
+    transform: translateX(calc(100% + 16px));
+  }
+  .in-app-alert.ng-enter.ng-enter-active, .in-app-alert.ng-leave {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .query-monitor .count {
   color: black;
   width: 183px;
