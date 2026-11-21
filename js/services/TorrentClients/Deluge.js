@@ -151,7 +151,9 @@ DuckieTorrent.factory('DelugeRemote', ['BaseTorrentRemote',
               path: magnetHash
             }]
           ]).then(function(response) {
-            // console.debug(magnetHash, dlPath, response);
+            if (response.error || response.result === false) {
+              throw new Error((response.error && response.error.message) || 'Deluge rejected the torrent')
+            }
           })
         },
         addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {

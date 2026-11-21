@@ -81,6 +81,11 @@ DuckieTorrent.factory('qBittorrentAuthStrategies', ['$http', function($http) {
 }])
 
 DuckieTorrent.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q', function(BaseHTTPApi, $http, $q) {
+  function checkAddResponse(response) {
+    if (response.data === 'Fails.') throw new Error('qBittorrent rejected the torrent')
+    return response
+  }
+
   var qBittorrentAPI = function(authStrategy) {
     BaseHTTPApi.call(this)
     this.authStrategy = authStrategy
@@ -103,7 +108,7 @@ DuckieTorrent.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q', function(
       if (label !== undefined && label !== null) fd.append('category', label)
       return $http.post(this.getUrl('addmagnet'), fd, {
         headers: this.authStrategy.postHeaders(this, undefined)
-      })
+      }).then(checkAddResponse)
     },
     addTorrentByUpload: function(data, infoHash, releaseName, dlPath, label) {
       var self = this
@@ -114,31 +119,12 @@ DuckieTorrent.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q', function(
       return $http.post(this.getUrl('addfile'), fd, {
         transformRequest: angular.identity,
         headers: this.authStrategy.postHeaders(this, undefined)
-      }).then(function() { return self.waitForTorrent(infoHash, releaseName) })
+      }).then(checkAddResponse).then(function() { return self.waitForTorrent(infoHash, releaseName) })
     },
     addTorrentByUrl: function(url, infoHash, releaseName, dlPath, label) {
       var self = this
       return this.addMagnet(url, dlPath, label).then(function() {
         return self.waitForTorrent(infoHash, releaseName)
-      })
-    },
-    waitForTorrent: function(infoHash, releaseName) {
-      var self = this
-      var currentTry = 0
-      var maxTries = 5
-      return $q(function(resolve, reject) {
-        function verifyAdded() {
-          currentTry++
-          self.getTorrents().then(function(torrents) {
-            var found = torrents.some(function(torrent) {
-              return torrent.hash.toUpperCase() === infoHash.toUpperCase()
-            })
-            if (found) return resolve(infoHash)
-            if (currentTry < maxTries) return setTimeout(verifyAdded, 1000)
-            reject(new Error('Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'))
-          }, reject)
-        }
-        setTimeout(verifyAdded, 1000)
       })
     },
     isDownloadPathSupported: function() { return true },

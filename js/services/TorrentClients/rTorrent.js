@@ -80,8 +80,8 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
   }
 ])
 
-  .factory('rTorrentAPI', ['BaseHTTPApi', 'xmlrpc', '$q',
-    function(BaseHTTPApi, xmlrpc, $q) {
+  .factory('rTorrentAPI', ['BaseHTTPApi', 'xmlrpc',
+    function(BaseHTTPApi, xmlrpc) {
       var rTorrentAPI = function() {
         BaseHTTPApi.call(this)
       }
@@ -179,34 +179,8 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
         },
         addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
           var self = this
-          return this.addMagnet(url, dlPath).then(function(result) {
-            var currentTry = 0
-            var maxTries = 5
-            // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
-            return $q(function(resolve, reject) {
-              function verifyAdded() {
-                currentTry++
-                self.getTorrents().then(function(result) {
-                  var hash = null
-                  // for each torrent compare the torrent.hash with .torrent infoHash
-                  result.map(function(torrent) {
-                    if (torrent.hash.toUpperCase() == infoHash) {
-                      hash = infoHash
-                    }
-                  })
-                  if (hash !== null) {
-                    resolve(hash)
-                  } else {
-                    if (currentTry < maxTries) {
-                      setTimeout(verifyAdded, 1000)
-                    } else {
-                      throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
-                    }
-                  }
-                })
-              }
-              setTimeout(verifyAdded, 1000)
-            })
+          return this.addMagnet(url, dlPath).then(function() {
+            return self.waitForTorrent(infoHash, releaseName)
           })
         },
         addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
@@ -224,34 +198,8 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
                 // using default download directory
                 var parms = ["", value]
               }
-              return self.rpc('load.raw_start', parms).then(function(result) {
-                var currentTry = 0
-                var maxTries = 5
-                // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
-                return $q(function(resolve, reject) {
-                  function verifyAdded() {
-                    currentTry++
-                    self.getTorrents().then(function(result) {
-                      var hash = null
-                      // for each torrent compare the torrent.hash with .torrent infoHash
-                      result.map(function(torrent) {
-                        if (torrent.hash.toUpperCase() == infoHash) {
-                          hash = infoHash
-                        }
-                      })
-                      if (hash !== null) {
-                        resolve(hash)
-                      } else {
-                        if (currentTry < maxTries) {
-                          setTimeout(verifyAdded, 1000)
-                        } else {
-                          throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
-                        }
-                      }
-                    })
-                  }
-                  setTimeout(verifyAdded, 1000)
-                })
+              return self.rpc('load.raw_start', parms).then(function() {
+                return self.waitForTorrent(infoHash, releaseName)
               })
             }
           })

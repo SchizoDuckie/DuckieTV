@@ -218,34 +218,8 @@ DuckieTorrent.factory('tTorrentRemote', ['BaseTorrentRemote',
         },
         addTorrentByUrl: function(url, infoHash, releaseName) { // UNTESTED
           var self = this
-          return this.addMagnet(url).then(function(result) {
-            var currentTry = 0
-            var maxTries = 5
-            // wait for tTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
-            return $q(function(resolve, reject) {
-              function verifyAdded() {
-                currentTry++
-                self.getTorrents().then(function(result) {
-                  var hash = null
-                  // for each torrent compare the torrent.hash with .torrent infoHash
-                  result.map(function(torrent) {
-                    if (torrent.hash.toUpperCase() == infoHash) {
-                      hash = infoHash
-                    }
-                  })
-                  if (hash !== null) {
-                    resolve(hash)
-                  } else {
-                    if (currentTry < maxTries) {
-                      setTimeout(verifyAdded, 1000)
-                    } else {
-                      throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
-                    }
-                  }
-                })
-              }
-              setTimeout(verifyAdded, 1000)
-            })
+          return this.addMagnet(url).then(function() {
+            return self.waitForTorrent(infoHash, releaseName)
           })
         },
         addTorrentByUpload: function(data, infoHash, releaseName) {
@@ -262,34 +236,8 @@ DuckieTorrent.factory('tTorrentRemote', ['BaseTorrentRemote',
           return $http.post(this.getUrl('addfile'), fd, {
             transformRequest: angular.identity,
             headers: headers
-          }).then(function(result) {
-            var currentTry = 0
-            var maxTries = 5
-            // wait for tTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
-            return $q(function(resolve, reject) {
-              function verifyAdded() {
-                currentTry++
-                self.getTorrents().then(function(result) {
-                  var hash = null
-                  // for each torrent compare the torrent.hash with .torrent infoHash
-                  result.map(function(torrent) {
-                    if (torrent.hash.toUpperCase() == infoHash) {
-                      hash = infoHash
-                    }
-                  })
-                  if (hash !== null) {
-                    resolve(hash)
-                  } else {
-                    if (currentTry < maxTries) {
-                      setTimeout(verifyAdded, 1000)
-                    } else {
-                      throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
-                    }
-                  }
-                })
-              }
-              setTimeout(verifyAdded, 1000)
-            })
+          }).then(function() {
+            return self.waitForTorrent(infoHash, releaseName)
           })
         },
         execute: function(method, id) {

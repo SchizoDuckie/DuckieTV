@@ -79,6 +79,11 @@ DuckieTorrent.factory('TransmissionRemote', ['BaseTorrentRemote',
 
   .factory('TransmissionAPI', ['BaseHTTPApi', '$http',
     function(BaseHTTPApi, $http) {
+      function addedTorrentHash(result) {
+        var torrent = result.arguments['torrent-added'] || result.arguments['torrent-duplicate']
+        return torrent.hashString.toUpperCase()
+      }
+
       var TransmissionAPI = function() {
         BaseHTTPApi.call(this)
         this.sessionID = null
@@ -89,7 +94,7 @@ DuckieTorrent.factory('TransmissionRemote', ['BaseTorrentRemote',
           var out = this.config.server + ':' + this.config.port + this.config.path
           return (param) ? out.replace('%s', encodeURIComponent(param)) : out
         },
-        rpc: function(method, params, options) {
+        rpc: function(method, params, retried) {
           var self = this
 
           var request = {
@@ -110,12 +115,17 @@ DuckieTorrent.factory('TransmissionRemote', ['BaseTorrentRemote',
           return $http.post(this.getUrl('rpc'), request, {
             headers: headers
           }).then(function(response) {
-            return response.data
-          }, function(e, f) {
-            self.sessionID = e.headers('X-Transmission-Session-Id')
-            if (e.status === 409) {
-              return self.rpc(method, request, options)
+            if (method === 'torrent-add' && response.data.result !== 'success') {
+              throw new Error(response.data.result || 'Transmission rejected the torrent')
             }
+            return response.data
+          }, function(e) {
+            var sessionID = e.headers('X-Transmission-Session-Id')
+            if (e.status === 409 && sessionID && !retried) {
+              self.sessionID = sessionID
+              return self.rpc(method, request, true)
+            }
+            throw e
           })
         },
         portscan: function() {
@@ -158,9 +168,7 @@ DuckieTorrent.factory('TransmissionRemote', ['BaseTorrentRemote',
           })
         },
         addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
-          return this.addMagnet(url, dlPath).then(function(result) {
-            return result.arguments['torrent-added'].hashString.toUpperCase()
-          })
+          return this.addMagnet(url, dlPath).then(addedTorrentHash)
         },
         addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
           var self = this
@@ -185,10 +193,9 @@ DuckieTorrent.factory('TransmissionRemote', ['BaseTorrentRemote',
               }
               return self.rpc('torrent-add', {
                 arguments: parms
-              }).then(function(result) {
-                return result.arguments['torrent-added'].hashString.toUpperCase()
-              })
+              }).then(addedTorrentHash)
             }
+            throw new Error('Could not read the torrent file')
           })
         },
         /**

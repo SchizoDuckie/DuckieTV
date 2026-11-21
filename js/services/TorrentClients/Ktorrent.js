@@ -112,8 +112,8 @@ DuckieTorrent.factory('KtorrentRemote', ['BaseTorrentRemote',
   }
 ])
 
-  .factory('KtorrentAPI', ['BaseHTTPApi', '$http', '$q',
-    function(BaseHTTPApi, $http, $q) {
+  .factory('KtorrentAPI', ['BaseHTTPApi', '$http',
+    function(BaseHTTPApi, $http) {
       var KtorrentAPI = function() {
         BaseHTTPApi.call(this)
       }
@@ -197,34 +197,8 @@ DuckieTorrent.factory('KtorrentRemote', ['BaseTorrentRemote',
 
         addTorrentByUrl: function(url, infoHash, releaseName) {
           var self = this
-          return this.addMagnet(url).then(function(result) {
-            var currentTry = 0
-            var maxTries = 5
-            // wait for Ktorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
-            return $q(function(resolve, reject) {
-              function verifyAdded() {
-                currentTry++
-                self.getTorrents().then(function(result) {
-                  var hash = null
-                  // for each torrent compare the torrent.hash with .torrent infoHash
-                  result.map(function(torrent) {
-                    if (torrent.hash.toUpperCase() == infoHash) {
-                      hash = infoHash
-                    }
-                  })
-                  if (hash !== null) {
-                    resolve(hash)
-                  } else {
-                    if (currentTry < maxTries) {
-                      setTimeout(verifyAdded, 1000)
-                    } else {
-                      throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
-                    }
-                  }
-                })
-              }
-              setTimeout(verifyAdded, 1000)
-            })
+          return this.addMagnet(url).then(function() {
+            return self.waitForTorrent(infoHash, releaseName)
           })
         },
 

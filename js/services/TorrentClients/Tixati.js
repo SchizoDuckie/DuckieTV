@@ -90,8 +90,8 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
   }
 ])
 
-  .factory('TixatiAPI', ['BaseHTTPApi', '$http', '$q',
-    function(BaseHTTPApi, $http, $q) {
+  .factory('TixatiAPI', ['BaseHTTPApi', '$http',
+    function(BaseHTTPApi, $http) {
       var TixatiAPI = function() {
         this.infohashCache = {}
         BaseHTTPApi.call(this)
@@ -235,34 +235,8 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
           return $http.post(this.getUrl('addmagnet'), fd, {
             transformRequest: angular.identity,
             headers: headers
-          }).then(function(result) {
-            var currentTry = 0
-            var maxTries = 5
-            // wait for Tixati to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
-            return $q(function(resolve, reject) {
-              function verifyAdded() {
-                currentTry++
-                self.getTorrents().then(function(result) {
-                  var hash = null
-                  // for each torrent compare the torrent.hash with .torrent infoHash
-                  result.map(function(torrent) {
-                    if (torrent.hash.toUpperCase() == infoHash) {
-                      hash = infoHash
-                    }
-                  })
-                  if (hash !== null) {
-                    resolve(hash)
-                  } else {
-                    if (currentTry < maxTries) {
-                      setTimeout(verifyAdded, 1000)
-                    } else {
-                      throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
-                    }
-                  }
-                })
-              }
-              setTimeout(verifyAdded, 1000)
-            })
+          }).then(function() {
+            return self.waitForTorrent(infoHash, releaseName)
           })
         },
 

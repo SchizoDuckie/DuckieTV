@@ -1,5 +1,5 @@
-DuckieTV.factory('BaseHTTPApi', ['$http',
-  function($http) {
+DuckieTV.factory('BaseHTTPApi', ['$http', '$timeout',
+  function($http, $timeout) {
     var BaseHTTPApi = function() {
       this.config = {
         server: null,
@@ -39,6 +39,22 @@ DuckieTV.factory('BaseHTTPApi', ['$http',
       // Explicit request headers take precedence over the default basic-auth header.
       httpOptions.headers = angular.extend({}, authHeaders, httpOptions.headers || {})
       return $http.get(url, httpOptions)
+    }
+
+    BaseHTTPApi.prototype.waitForTorrent = function(infoHash, releaseName) {
+      var self = this
+      var expectedHash = infoHash.toUpperCase()
+      function check(triesLeft) {
+        return $timeout(function() { return self.getTorrents() }, 1000).then(function(torrents) {
+          var found = torrents.some(function(torrent) {
+            return torrent.hash && torrent.hash.toUpperCase() === expectedHash
+          })
+          if (found) return infoHash
+          if (triesLeft > 1) return check(triesLeft - 1)
+          throw new Error('Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in 5 tries.')
+        })
+      }
+      return check(5)
     }
 
     return BaseHTTPApi

@@ -86,8 +86,8 @@ DuckieTorrent
     this.pollTimeout = null
     this.connectionGeneration = 0
 
-    this.$get = ['$rootScope', '$q', '$http', 'URLBuilder', '$parse', 'uTorrentRemote', '$sce',
-      function($rootScope, $q, $http, URLBuilder, $parse, uTorrentRemote, $sce) {
+    this.$get = ['$rootScope', '$q', '$http', 'URLBuilder', '$parse', 'uTorrentRemote', '$sce', '$timeout',
+      function($rootScope, $q, $http, URLBuilder, $parse, uTorrentRemote, $sce, $timeout) {
         var self = this
 
         function setPhase(phase) {
@@ -433,25 +433,26 @@ DuckieTorrent
             uTorrentRemote.eventHandlers = {}
           },
           addMagnet: function(magnet) {
-            uTorrentRemote.add.torrent(magnet)
+            return uTorrentRemote.add.torrent(magnet).then(function(response) {
+              if (response && response.error) throw new Error('uTorrent rejected the torrent')
+              return response
+            })
           },
           addTorrentByUpload: function() {
             throw 'Upload Torrent Not implemented in uTorrent remote.'
           },
 
           addTorrentByUrl: function(url, infoHash) {
-            return uTorrentRemote.add.torrent(url).then(function(result) {
+            return methods.addMagnet(url).then(function() {
               return methods.Update(true)
             }).then(function() {
-              return $q(function(resolve) {
-                setTimeout(function() {
-                  var matches = Object.keys(uTorrentRemote.torrents).filter(function(key) {
-                    return uTorrentRemote.torrents[key].properties.all.hash.toUpperCase() == infoHash
-                  })
-                  if (matches.length > 0) {
-                    resolve(matches[0])
-                  }
-                }, 5000)
+              return $timeout(5000).then(function() {
+                var match = Object.keys(uTorrentRemote.torrents).find(function(key) {
+                  var hash = $parse('properties.all.hash')(uTorrentRemote.torrents[key])
+                  return hash && hash.toUpperCase() === infoHash.toUpperCase()
+                })
+                if (!match) throw new Error('uTorrent did not return the requested torrent')
+                return match
               })
             })
           },
