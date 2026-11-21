@@ -8,10 +8,9 @@
 <!-- input box -->
     <h2 ng-show="!model.fsquery || model.fsquery == ''" style="text-align:center" translate-once>COMMON/type-your-search/lbl</h2>
 <!-- series from favorites -->
-    <div class="fs-container fs-posters" ng-class="{'active': searchResults.series.length > 0 || seriesLoading}">
+    <div class="fs-container fs-posters" ng-class="{'active': searchResults.series.length > 0}">
       <h3 translate-once>FASTSEARCH/series-favorites/hdr</h3>
-      <loading-spinner class="small" ng-show="seriesLoading"></loading-spinner>
-      <div class="fs-series no-animate" ng-if="searchResults.series.length > 0 && !seriesLoading">
+      <div class="fs-series no-animate" ng-if="searchResults.series.length > 0">
         <serieheader ng-repeat="serie in searchResults.series  | orderBy: 'name' | limitTo: 6 track by serie.ID_Serie" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="close()" class="no-animate"></serieheader>
       </div>
     </div>
@@ -96,7 +95,7 @@
               </a>
             </td>
             <td>
-              <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
+              <a ng-bind="::seed.releasename" ng-click="select(seed)"></a>
             </td>
             <td>
               <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>

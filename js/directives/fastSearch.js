@@ -10,13 +10,14 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
     var isShowing = false
 
     var focusInput = function() {
+      if (!isShowing) return
       var i = document.querySelector('.fastsearch input')
       if (i) {
-        i.value = self.fsquery
         i.focus()
-        var e = document.createEvent('HTMLEvents')
-        e.initEvent('onchange', true, true)
-        i.dispatchEvent(e)
+        if (i.value !== self.fsquery) {
+          i.value = self.fsquery
+          i.dispatchEvent(new Event('input', { bubbles: true }))
+        }
       } else {
         setTimeout(focusInput, 50)
       }
@@ -82,25 +83,13 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
   }
 ])
 
-  .controller('fastSearchCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$state', 'data', 'FavoritesService', 'FavoritesManager', 'TraktTVv2', 'SeriesListState', 'SidePanelState', 'TorrentSearchEngines', 'SettingsService', 'TorrentDownloadActions', 'AutoDownloadService',
-    function($rootScope, $scope, $modalInstance, $state, data, FavoritesService, FavoritesManager, TraktTVv2, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService, TorrentDownloadActions, AutoDownloadService) {
+  .controller('fastSearchCtrl', ['$scope', '$uibModalInstance', 'data', 'FavoritesService', 'FavoritesManager', 'TraktTVv2', 'SidePanelState', 'TorrentSearchEngines', 'SettingsService', 'TorrentDownloadActions', 'AutoDownloadService',
+    function($scope, $modalInstance, data, FavoritesService, FavoritesManager, TraktTVv2, SidePanelState, TorrentSearchEngines, SettingsService, TorrentDownloadActions, AutoDownloadService) {
       $scope.searchprovider = SettingsService.get('torrenting.searchprovider')
       $scope.hasFocus = true
       $scope.model = {
         fsquery: data.key
       }
-
-      $scope.searchResults = {
-        series: [],
-        traktSeries: [],
-        episodes: [],
-        torrents: []
-      }
-
-      $scope.seriesLoading = true
-      $scope.traktSeriesLoading = true
-      $scope.episodesLoading = true
-      $scope.torrentsLoading = true
 
       $scope.fields = [{
         key: 'fsquery',
@@ -135,97 +124,47 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
       }
 
       $scope.search = function(value) {
-        if (!value || value === '') {
-          $scope.searchResults = {
-            series: [],
-            traktSeries: [],
-            episodes: [],
-            torrents: []
+        var query = (value || '').trim()
+        var results = { series: [], traktSeries: [], episodes: [], torrents: [] }
+        $scope.searchResults = results
+        $scope.traktSeriesLoading = !!query
+        $scope.episodesLoading = !!query
+        $scope.torrentsLoading = !!query && SettingsService.get('torrenting.enabled')
+        if (!query) return
+
+        var words = query.toLowerCase().split(/\s+/)
+        function matches(title) {
+          var name = title.toLowerCase()
+          return words.every(function(word) { return name.includes(word) })
+        }
+
+        // Each search owns its results. A slower previous search must not replace this one.
+        async function load(section, fetchResults) {
+          try {
+            results[section] = await fetchResults()
+          } catch (error) {
+            if ($scope.searchResults === results) console.warn('Fast Search failed for ' + section, error)
+          } finally {
+            if ($scope.searchResults === results) {
+              $scope[section + 'Loading'] = false
+              $scope.$applyAsync()
+            }
           }
-          return
         }
 
-        $scope.seriesLoading = true
-        $scope.traktSeriesLoading = true
-        $scope.episodesLoading = true
-        $scope.torrentsLoading = true
-
-        $scope.searchResults.series = FavoritesService.favorites.filter(function(serie) {
-          $scope.seriesLoading = false
-          var score = 0
-
-          var query = value.toLowerCase().split(' ')
-
-          var name = serie.name.toLowerCase()
-          query.map(function(part) {
-            if (name.indexOf(part) > -1) {
-              score++
-            }
-          })
-          return (score == query.length)
+        results.series = FavoritesService.favorites.filter(function(serie) { return matches(serie.name) })
+        load('episodes', function() {
+          var pattern = '%' + query.replace(/[!%_]/g, '!$&') + '%'
+          return CRUD.Find('Episode', [["Episodes.episodename LIKE ? ESCAPE '!'", pattern]], { limit: 9 })
         })
-
-        /**
-             * Word-by-word scoring for search results for trakt.tv.
-             * All words need to be in the search result's release name, or the result will be filtered out.
-             */
-        function traktFilterByScore(item) {
-          var score = 0
-
-          var query = value.toLowerCase().split(' ')
-
-          var name = item.name.toLowerCase()
-          query.map(function(part) {
-            if (name.indexOf(part) > -1) {
-              score++
-            }
-          })
-          return (score == query.length)
-        }
-        /**
-             * Word-by-word scoring for search results for torrents.
-             * All words need to be in the search result's release name, or the result will be filtered out.
-             */
-        function torrentFilterByScore(item) {
-          var score = 0
-
-          var query = value.toLowerCase().split(' ')
-
-          var name = item.releasename.toLowerCase()
-          query.map(function(part) {
-            if (name.indexOf(part) > -1) {
-              score++
-            }
-          })
-          return (score == query.length)
-        }
-
-        CRUD.Find('Episode', Array("episodename like '%" + value + "%'")).then(function(results) {
-          $scope.searchResults.episodes = results
-          $rootScope.$applyAsync()
-          $scope.episodesLoading = false
+        load('traktSeries', async function() {
+          var shows = await TraktTVv2.search(query)
+          return shows.filter(function(show) { return matches(show.name) })
         })
-
-        TraktTVv2.search(value).then(function(results) {
-          $scope.searchResults.traktSeries = results.filter(traktFilterByScore)
-          $rootScope.$applyAsync()
-          $scope.traktSeriesLoading = false
-        }).catch(function(err) {
-          console.error('TraktTV search error!', err)
-          $scope.traktSeriesLoading = false
-          $scope.searchResults.traktSeries = []
-        })
-
-        if (SettingsService.get('torrenting.enabled')) {
-          TorrentSearchEngines.getSearchEngine($scope.searchprovider).search(value).then(function(results) {
-            $scope.searchResults.torrents = results.filter(torrentFilterByScore)
-            $rootScope.$applyAsync()
-            $scope.torrentsLoading = false
-          },
-          function(err) {
-            console.error('Torrent search error!', err)
-            $scope.torrentsLoading = false
-            $scope.searchResults.torrents = []
+        if ($scope.torrentsLoading) {
+          load('torrents', async function() {
+            var releases = await TorrentSearchEngines.getSearchEngine($scope.searchprovider).search(query)
+            return releases.filter(function(release) { return matches(release.releasename) })
           })
         }
       }
@@ -243,7 +182,7 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
       $scope.addTraktSerie = function(serie) {
         return FavoritesManager.add(serie).then(function(added) {
           SidePanelState.hide()
-          if (added) $scope.search(self.fsquery)
+          if (added) $scope.search($scope.model.fsquery)
           return added
         })
       }
@@ -271,7 +210,7 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
       }
 
       $scope.select = function(result) {
-        return TorrentDownloadActions.start(result, $scope.searchprovider, data.key).then(function(url) {
+        return TorrentDownloadActions.start(result, $scope.searchprovider, $scope.model.fsquery).then(function(url) {
           if (url) $modalInstance.close(url)
         })
       }
