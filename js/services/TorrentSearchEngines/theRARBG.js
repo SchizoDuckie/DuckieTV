@@ -11,13 +11,13 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         selectors: {
           resultContainer: 'tr.list-entry',
           releasename: ['a[href^="/post-detail/"]', 'innerText'],
-          seeders: ['td:nth-child(7)', 'innerText'],
-          leechers: ['td:nth-child(8)', 'innerText'],
-          size: ['td.sizeCell', 'innerText'],
+          seeders: ['td.se', 'innerText'],
+          leechers: ['td.le', 'innerText'],
+          size: ['td.s', 'innerText'],
           detailUrl: ['a[href^="/post-detail/"]', 'href']
         },
         detailsSelectors: {
-          detailsContainer: 'table.detailTable',
+          detailsContainer: 'div.dl',
           magnetUrl: ['a[href^="magnet:?"]', 'href']
         },
         orderby: {
