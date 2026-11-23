@@ -5,7 +5,7 @@ Throughout Services and Directives in DuckieTV, events are published on the $roo
 This keeps the configuration modular, allows easy extending at key points and prevents tight coupling.
 
 
-Event Descriptions (as at v1.1.4)
+Event Descriptions
 ==================
 ------------------
 
@@ -21,7 +21,7 @@ Event Descriptions (as at v1.1.4)
 
  -  **autodownload:activity**
 
-    Tells the Auto-Download-Status monitor that the Auto-Download service has processed an episode's torrent search.
+    Signals that the Auto Download activity list or scan window has changed. `AutoDownloadService` groups updates into one broadcast per Angular digest. The status monitor reads the latest entries from the service.
 
  -  **background:load**
 
@@ -40,6 +40,10 @@ Event Descriptions (as at v1.1.4)
 
     An episode has been marked as watched. Observed by TraktTVv2 and EpisodeWatchedMonitor and forwards the markwatched call when it's configured.
 
+ -  **episode:marked:downloaded**, **episode:marked:notdownloaded**
+
+    Carries the persisted episode after its downloaded flag changes. The Auto Download Overview uses these events and the watched events to update rows and filters.
+
  -  **episodes:updated**
 
     Fires when episodes have been updated from trakt.tv
@@ -55,10 +59,6 @@ Event Descriptions (as at v1.1.4)
  -  **locationreload**
 
     Used to signal that a page reload is required, giving standalone the change to perform some house keeping.
-
- -  **magnet:select:{{TVDB_ID}}{{infohash}}**
-
-    This event is fired by the AutoDownloadService and TorrentSearchEngines when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The SidepanelEpisodeCtrl and SidepanelSeasonCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if a TorrentClient is downloading this torrent by monitoring for torrent:update:{{infohash}})
 
  -  **restoredtv**
 
@@ -90,11 +90,11 @@ Event Descriptions (as at v1.1.4)
 
  -  **storage:update**
 
-    Notify local listeners that something has changed in the favorite series list.
+    `FavoritesService` broadcasts this when the library changes. The calendar and Auto Download Overview reload their episode queries in response.
 
- -  **torrent:update:**{{infoHash}}
+ -  **torrent:update:{{infoHash}}**, **torrent:update:**
 
-    Notify the TorrentClients that a torrent's data has been updated. Used Internally.
+    Torrent remotes broadcast the updated torrent on its own topic and on the shared `torrent:update:` topic. For a single torrent, call `onTorrentUpdate(hash, callback)` and invoke the returned function when the subscriber is destroyed. The Auto Download Overview uses the shared topic to refresh tracked rows together.
 
  -  **torrentclient:connected**
 
@@ -116,6 +116,8 @@ Event Descriptions (as at v1.1.4)
 
 Graphviz graphs
 ===============
+
+These diagrams show the historical event layout.
 
 Event Listeners:
 -----------------------

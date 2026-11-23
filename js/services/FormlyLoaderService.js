@@ -1,10 +1,6 @@
 /**
- *
- * Angular-Formly file-loader companion module by SchizoDuckie
- *
- * Store your formly-forms in .json files and load them at runtime to keep your controller clean
- * Usage: <todo:link to jsbin here>
- *
+ * Load Angular Formly definitions from JSON and bind controller-provided
+ * values and functions to the fields at runtime.
  */
 DuckieTV.factory('FormlyLoader', ['$http', '$parse', function($http, $parse) {
   var config = {
@@ -12,9 +8,8 @@ DuckieTV.factory('FormlyLoader', ['$http', '$parse', function($http, $parse) {
   }
 
   /**
-   * Recursively process the properties of the json file loaded.
-   * Find properties that are strings and start with $mappings.
-   * Resolve each mapping from the object captured by the current load request.
+   * Replace references beginning with $mappings. in the response's own fields.
+   * Assign the mapped values directly so callbacks retain their identity.
    * Example:
    *
    *
@@ -55,10 +50,11 @@ DuckieTV.factory('FormlyLoader', ['$http', '$parse', function($http, $parse) {
       config.basePath = path
     },
     /**
-     * Load a form from json and process the mappings supplied for this request.
-     * @param string form name of the form to load (wrapped between basepath and  .json)
-     * @param object mappings values and functions referenced by the form
-     * @returns Promise(form config)
+     * Load a form using only this call's mappings. Overlapping requests can
+     * finish in either order without taking values from one another.
+     * @param {string} form Name of the JSON template without its extension.
+     * @param {Object} [mappings] Values and functions referenced by the template.
+     * @returns {Promise<Array>} The resolved Formly field definitions.
      */
     load: function(form, mappings) {
       mappings = mappings || {}

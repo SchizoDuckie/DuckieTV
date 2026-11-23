@@ -17,13 +17,7 @@ On top of that, the following libraries (and their dependencies) are used (these
 - UI-router Extras (enhancements for UI-Router) https://christopherthielen.github.io/ui-router-extras
 - angular-dialgauge (dial gauge directive) https://cdjackson.github.io/angular-dialgauge/
 
-If you want to get a quick overview of how events work within DuckieTV check out events.md:
-https://github.com/SchizoDuckie/DuckieTV/blob/angular/EVENTS.md
-On top of that, you can check out the dependency graph on [http://duckietv.github.io/DuckieTV/](The DuckieTV live Demo) using [the awesome angularjs-dependency-graph](https://chrome.google.com/webstore/detail/angularjs-dependency-grap/gghbihjmlhobaiedlbhcaellinkmlogj)
-
-## Hacking on DuckieTV
-
-If you want to run and hack on DuckieTV standalone yourself, the process is really simple:
+For an overview of events, see [EVENTS.md](EVENTS.md).
 
 ## Historical browser extension workflow
 
@@ -64,6 +58,8 @@ DUCKIETV_TEST_PROFILE="$(mktemp -d "${TMPDIR:-/tmp}/duckietv-nw116.XXXXXX")"
 ```
 
 Quit DuckieTV before removing the disposable directory.
+
+The JavaScript unit suite uses Karma and Chrome. See [tests/readme.md](tests/readme.md) for the test inventory and commands. The Node startup tests run separately with `npm run test:startup`. The NW.js integration runner takes a suite name, for example `npm run test:nw -- --suite=bootstrap`.
 
 A truly empty new standalone profile creates its native SQLite library automatically. When the standard `DuckieTV-Standalone-SQLite` profile has a sibling `DuckieTV-Standalone` legacy profile, startup instead offers **Start Fresh** and **Import Existing Library**. Detection only checks for that sibling path and never opens it with NW.js 0.116. **Import Existing Library** displays the destination path to use with the migration command below. Legacy profiles stored in custom locations are migrated with explicit paths using the command below.
 

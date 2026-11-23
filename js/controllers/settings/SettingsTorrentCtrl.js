@@ -268,6 +268,11 @@ DuckieTV.controller('AutoDownloadProvidersCtrl', ['$scope', 'SettingsService', '
   function($scope, SettingsService, TorrentSearchEngines) {
     var vm = this
 
+    /**
+     * Show saved provider names even when they are not currently registered, so
+     * they can be reordered or removed. Without a saved list, derive the display
+     * order from the default or legacy multi-provider settings.
+     */
     function refresh() {
       var saved = SettingsService.get('autodownload.providers')
       vm.registered = Object.keys(TorrentSearchEngines.getSearchEngines())
@@ -308,6 +313,7 @@ DuckieTV.controller('AutoDownloadProvidersCtrl', ['$scope', 'SettingsService', '
       if (vm.order.length > 1) save(vm.order.filter(function(provider) { return provider !== name }))
     }
 
+    // Reset both representations so the legacy multi-provider list cannot reappear.
     vm.reset = function() {
       if (SettingsService.get('autodownload.multiSE.enabled')) SettingsService.set('autodownload.multiSE.enabled', false)
       save(null)

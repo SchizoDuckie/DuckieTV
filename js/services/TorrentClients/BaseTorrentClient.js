@@ -6,6 +6,11 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
       this.offMethods = {}
     }
 
+    /**
+     * Merge a poll result into the cached torrent object, so existing UI
+     * references see the update. Use its uppercase hash for the per-torrent
+     * event and also broadcast to listeners tracking the whole list.
+     */
     BaseTorrentRemote.prototype.handleEvent = function(data) {
       if (('hash' in data) && (data.hash !== undefined)) {
         var key = data.hash.toUpperCase()
@@ -40,6 +45,11 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
       return (hash in this.torrents) ? this.torrents[hash] : null
     }
 
+    /**
+     * Watch the torrent identified by an uppercase hash. Call the returned
+     * disposer on teardown. Each call owns its registration, even when the
+     * same callback has been registered elsewhere.
+     */
     BaseTorrentRemote.prototype.onTorrentUpdate = function(hash, callback) {
       var key = 'torrent:update:' + hash
       if (!(key in this.offMethods)) {
@@ -139,6 +149,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
         setPhase(this, 'idle')
       }
 
+      // Derive the flags consumed by older adapters and templates from one phase.
       function setPhase(client, phase) {
         client.phase = phase
         client.isConnecting = phase === 'connecting' || phase === 'synchronizing'
@@ -205,12 +216,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
         },
 
         /**
-             * Connect with an auth token obtained by the Pair function.
-             * Store the resulting session key in $scope.session
-             * You can call this method as often as you want. It'll return a promise that holds
-             * off on resolving until the client is connected.
-             * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
-             */
+         * Share one connection attempt and resolve with its remote interface.
+         * Success starts polling without waiting for the first torrent list.
+         * Failure rejects the caller and schedules one reconnect in 15 seconds.
+         */
         AutoConnect: function() {
           if (this.phase === 'ready') {
             return $q.when(this.getRemote())
@@ -226,6 +235,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
           setPhase(this, 'connecting')
 
           this.connectPromise = this.connect().then(function(result) {
+            // A disconnect or a newer attempt invalidates this result.
             if (generation !== self.connectionGeneration) throw 'Connection cancelled.'
             console.info(self.getName() + ' connected!')
             setPhase(self, 'synchronizing')
@@ -260,10 +270,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
           }
         },
         /**
-             * Start the status update polling.
-             * Stores the resulting TorrentClient service in $scope.rpc
-             * Starts polling every 1s.
-             */
+         * Fetch torrent state while connected. The normal poll schedules its
+         * next fetch three seconds after a successful response. Pass true for
+         * a one-off refresh that leaves scheduling to the existing poll.
+         */
         Update: function(dontLoop) {
           if (this.phase === 'synchronizing' || this.phase === 'ready') {
             var self = this
@@ -286,6 +296,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
           return this.connected
         },
 
+        /** Cancel pending timers and invalidate any outstanding connection attempt. */
         Disconnect: function() {
           this.connectionGeneration++
           clearTimeout(this.retryTimeout)
@@ -310,16 +321,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
              */
 
         /**
-             *
-             *
-             * Example:
-             *        return request('portscan').then(function(result) { // check if client WebUI is reachable
-             *   console.log(service.getName() + " check result: ", result);
-             *   self.connected = true; // we are now connected
-             *   self.isConnecting = false; // we are no longer connecting
-             *   return true;
-             *  })
-             */
+         * Check that the adapter can reach and authenticate with its Web UI.
+         * Adapters that override this method report connection success or
+         * reject on failure. AutoConnect owns the lifecycle flags.
+         */
         connect: function() {
           var self = this
           return this.getAPI().portscan().then(function(result) { // check if client WebUI is reachable
@@ -332,11 +337,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
         },
 
         /**
-             * Execute and handle the API's 'update' query.
-             * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
-             * for storage, handling and attaching RPC methods.
-             */
-
+         * Reconcile a complete API snapshot with the remote cache. Torrents
+         * missing from the snapshot are removed. Return the raw snapshot to
+         * the polling caller.
+         */
         getTorrents: function() {
           var self = this
 

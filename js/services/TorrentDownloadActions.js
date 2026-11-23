@@ -14,6 +14,11 @@ DuckieTV.factory('TorrentDownloadActions', ['$q', '$translate', 'TorrentSearchEn
       if (kind !== 'magnet' && result.torrentUrl) return { kind: 'torrent', url: result.torrentUrl }
     }
 
+    /**
+     * Resolve the requested link kind and cache any links found on the result.
+     * Omit kind to prefer magnet links with a torrent file fallback. Missing or
+     * unreadable links are reported in the dialog and resolve to undefined.
+     */
     function resolveLink(result, provider, kind) {
       return $q.when().then(function() {
         var link = findLink(result, kind)
@@ -33,6 +38,11 @@ DuckieTV.factory('TorrentDownloadActions', ['$q', '$translate', 'TorrentSearchEn
     }
 
     return {
+      /**
+       * Submit the chosen result and return its URL on success. The dialog uses
+       * the selection channel to associate the launch with an episode. Show a
+       * desktop notification only after the configured client accepts the add.
+       */
       start: function(result, provider, channel, dlPath, label) {
         return resolveLink(result, provider).then(function(link) {
           if (!link) return
@@ -52,6 +62,7 @@ DuckieTV.factory('TorrentDownloadActions', ['$q', '$translate', 'TorrentSearchEn
           })
         })
       },
+      /** Open an explicit magnet or torrent link using Chromium's link handler. */
       open: function(result, provider, kind) {
         return resolveLink(result, provider, kind).then(function(link) {
           if (link) return TorrentSearchEngines.openExternalLink(link.kind, link.url)

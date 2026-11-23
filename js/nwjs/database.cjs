@@ -3,6 +3,10 @@
 const path = require('node:path')
 const { Worker } = require('node:worker_threads')
 
+/**
+ * Convert ORM bind values before sending the query to the SQLite worker.
+ * Date values can come from the NW.js renderer, which has its own Date class.
+ */
 function normalizeBinding(value) {
   if (value === undefined) return null
   if (Object.prototype.toString.call(value) === '[object Date]' && typeof value.getTime === 'function') return value.getTime()
@@ -10,6 +14,10 @@ function normalizeBinding(value) {
   return value
 }
 
+/**
+ * Promise-based connection used by the CRUD adapter and migration importer.
+ * One worker owns the synchronous SQLite handle for each connection.
+ */
 class NWDatabaseConnection {
   constructor(name, options) {
     this.name = name
@@ -24,6 +32,7 @@ class NWDatabaseConnection {
     this.lastInsertRowId = 0
   }
 
+  /** Share one readiness promise across callers opening the same connection. */
   connect() {
     if (this.connected) return Promise.resolve(this)
     if (this.worker) return this.ready
@@ -44,6 +53,10 @@ class NWDatabaseConnection {
     return this.ready
   }
 
+  /**
+   * Run one statement with positional bindings. Resolves to rows and an
+   * affected-row count, with an insert ID when the statement inserted a row.
+   */
   execute(sql, bindings) {
     if (!this.worker || this.closing) return Promise.reject(new Error(this.closing ? 'Database is closing' : 'Database is not connected'))
     return this.queueOperation(function() {
@@ -57,6 +70,11 @@ class NWDatabaseConnection {
     }.bind(this))
   }
 
+  /**
+   * Run an ordered array of {sql, bindings} statements in one transaction.
+   * Resolves to the statement results in order. A SQL failure rolls back the
+   * entire batch.
+   */
   batch(statements) {
     if (!this.worker || this.closing) return Promise.reject(new Error(this.closing ? 'Database is closing' : 'Database is not connected'))
     return this.queueOperation(function() {
@@ -71,6 +89,10 @@ class NWDatabaseConnection {
     }.bind(this))
   }
 
+  /**
+   * Preserve call order across reads, writes, and batches. A rejected operation
+   * still reaches its caller, while the queue remains available to later work.
+   */
   queueOperation(operation) {
     const accepted = this.operationTail.then(function() {
       return this.ready.then(operation)
@@ -97,6 +119,10 @@ class NWDatabaseConnection {
     return this
   }
 
+  /**
+   * Stop accepting statements, drain previously queued work, then close the
+   * SQLite handle and terminate the worker. Concurrent closes share the result.
+   */
   close() {
     if (this.closePromise) return this.closePromise
     if (!this.worker) return Promise.resolve()
@@ -113,6 +139,10 @@ class NWDatabaseConnection {
     return this.closePromise
   }
 
+  /**
+   * Send a worker command and wait for its matching reply. The closing
+   * allowance lets accepted statements reach SQLite while shutdown drains them.
+   */
   request(command, payload, allowWhileClosing) {
     if (!this.worker || (this.closing && !allowWhileClosing)) return Promise.reject(new Error(this.closing ? 'Database is closing' : 'Database worker is unavailable'))
     const id = ++this.counter

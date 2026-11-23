@@ -1,5 +1,10 @@
 'use strict'
 
+/**
+ * Publish a preflight promise for the background CRUD bootstrap. Native
+ * startup needs either a verified existing library or permission to initialize
+ * an empty profile. The bootstrap marks a new library ready after schema setup.
+ */
 ;(function() {
   try {
   if (typeof openDatabase === 'function') {
@@ -38,6 +43,8 @@
   var recoverFresh = args.indexOf('--duckietv-recover-fresh') > -1 || process.env.DUCKIETV_RECOVER_FRESH === '1'
   var state = localStorage.getItem(stateKey)
 
+  // Opening a missing SQLite file would create an empty library. Check that
+  // the file exists and that any migration has completed activation.
   if (state === readyState) {
     var readyDatabasePath = path.join(nw.App.dataPath, 'seriesguide_chrome.sqlite3')
     if (!fs.existsSync(readyDatabasePath)) {
@@ -59,6 +66,8 @@
   }
 
   var legacyProfileDetected = false
+  // Look for the sibling profile only at the default location. A custom
+  // destination can still be migrated by passing it explicitly to the importer.
   if (standardNamespace) {
     try {
       var legacyProfileEntry = fs.lstatSync(legacyProfileRoot)
@@ -78,6 +87,8 @@
     var databaseExists = [databasePath, databasePath + '-wal', databasePath + '-shm'].some(function(filename) {
       return fs.existsSync(filename)
     })
+    // Only an explicitly requested recovery of our own interrupted fresh setup
+    // may remove the partially initialized database and its version markers.
     var canRecover = recoverFresh && state === initializingState
     if (unexpectedKeys.length || (state && !canRecover) || (databaseExists && !canRecover)) {
       window.DuckieTVStoragePreflight = Promise.reject(new Error('Start Fresh requires an empty dedicated profile'))

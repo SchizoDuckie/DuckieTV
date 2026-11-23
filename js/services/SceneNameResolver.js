@@ -42,6 +42,11 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
     return {
       getSceneName: getSceneName,
 
+      /**
+       * Resolve the episode query as a promise for both date-formatted shows and
+       * XEM mappings. Date exceptions use the show's timezone and may shift the
+       * air date. The custom search string is appended in either path.
+       */
       getSearchStringForEpisode: function(serie, episode) {
         var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : ''
         var sceneName = getSceneName(serie.TRAKT_ID, serie.name, serie.alias) + ' '

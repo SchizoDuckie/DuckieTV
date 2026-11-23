@@ -34,6 +34,18 @@ DuckieTV For Chrome, Safari, Opera, Vivaldi or Edge browsers is no longer suppor
 ---------------------------
 **Chromium no longer provides Web SQL.** The standalone app now stores its library in Node's native SQLite backend. A clean installation initializes automatically. When the standard legacy profile is detected beside the new dedicated profile, DuckieTV offers migration or an explicit fresh start. Existing NW.js 0.87 data must be migrated into the new profile before it can be opened; see [Migrate an NW.js 0.87 profile](HACKING.md#migrate-an-nwjs-087-profile).
 
+## Using Auto Download
+
+Enable torrent integration and configure a torrent client in Settings. Auto Download can run on a schedule when enabled in its settings, or be started for an episode from its details, calendar menu, or the Auto Download Overview. The overview is available from the cloud download icon in the sidebar. It lists episodes by air date, offers date and status filters, and shows torrent progress and names when the connected client provides them. Find opens the torrent search dialog, while Auto Download searches and submits a matching release using the configured filters.
+
+In Auto Download settings, arrange providers in the order they should be tried. If a show's preferred provider is available, DuckieTV tries it first and then checks the saved list. DuckieTV moves on when a search fails or yields no usable torrent link. If connecting to the client or submitting the download fails, DuckieTV ends that attempt. In a show's settings, choose a suggested alias or enter a custom torrent search name.
+
+Display settings offer **Normal** and **Small** interface scales. They also control in-app alerts and system notifications. With in-app alerts enabled, you can hide routine Auto Download results while still seeing errors from manual actions.
+
+## Backups
+
+Settings offers backup creation and restore. Backups include settings, show preferences, and watched and downloaded episode state. Restoring looks up shows through Trakt, shows progress for each show, and reports individual failures. The optional database wipe removes the existing library before import, so keep a backup of the current library if it is needed. Backups may contain settings such as Jackett API keys, so store them accordingly.
+
 Screenshots:
 ============
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**

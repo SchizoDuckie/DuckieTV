@@ -1,7 +1,7 @@
 /**
  * Handles creating and importing a backup.
  *
- * see app.js for the backup format structure description
+ * BackupCodec owns validation and compatibility with older backup formats.
  */
 DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', '$q', 'BackupService', 'BackupCodec', 'dialogs', 'FileReader', 'TraktTVv2', 'SettingsService', 'FavoritesService', 'CalendarEvents', 'TorrentSearchEngines',
   function($rootScope, $scope, $filter, $q, BackupService, BackupCodec, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
@@ -49,6 +49,10 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', '$q', 'Bac
       })
     }
 
+    /**
+     * Read one restore file at a time. Validate it before prompting for an
+     * optional wipe and report file or setup failures in the restore panel.
+     */
     $scope.restore = function(file) {
       if (!file || $scope.restoring) return
       $scope.restoring = true
@@ -82,9 +86,8 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', '$q', 'Bac
     }
 
     /**
-     * Apply a validated backup and feed its series to FavoritesService.
-     * The FavoritesService has a method to automagically import the watched episodes
-     * (which is a bit hacky as it should be part of the import)
+     * Apply settings and finish Jackett writes before restoring shows one at a
+     * time. Keep existing session tokens and the local torrent integration setting.
      */
     var importBackup = function(plan) {
       $scope.restoreActivity.phase = 'settings'
@@ -133,6 +136,11 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', '$q', 'Bac
       })
     }
 
+    /**
+     * Resolve the backup's show ID, load its current Trakt metadata, and persist
+     * its saved episode state and show preferences. Record failure on the row
+     * and in the progress totals so the next show can still be restored.
+     */
     function restoreSeries(item) {
       var identity = item.identity
       var usesTraktId = identity.type === 'trakt'
@@ -200,7 +208,10 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', '$q', 'Bac
     }
 
     /**
-     * Wipes the database of all series, seasons and episodes and removes all settings
+     * Confirm and clear the library, Jackett rows, and most local settings.
+     * Keep database version and storage profile markers. Resolve to false on
+     * cancellation or true after deletion. During restore the page stays open
+     * so the caller can apply the validated backup.
      */
     $scope.wipeDatabase = function(isRestoring) {
       var dlg = dialogs.confirm($filter('translate')('COMMON/wipe/hdr'),

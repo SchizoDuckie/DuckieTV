@@ -1,13 +1,8 @@
 /**
- * Abstraction layer for the different torrent search engines that DuckieTV supports.
- * Search engines register themselves in the app's .run() block using TorrentSearchEngines.registerEngine(name, instance)
- *
- * All an engine needs to provide is a .search method. It can be both an angular factory or a plain old javascript instantiated function
- * The TorrentDialog directive lists these search engines and can switch between them.
- * The AutoDownloadService uses the default engine to look for torrents on aired episodes.
- *
- * There is a GenericTorrentSearchEngine.js in this folder that can scrape a lot of torrent sites by just passing in some endpoints and css selectors.
- * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
+ * Registry for native and Jackett providers, and the shared entry point for
+ * submitting torrent links. Providers implement search and may resolve links
+ * from a result's details page. Manual search and Auto Download share the
+ * registry and select providers independently.
  */
 
 DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injector', 'DuckieTorrent', 'dialogs', 'SettingsService', 'SceneNameResolver', 'TorrentHashListService',
@@ -54,12 +49,18 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
 //      }
     }
 
+    // Notify listeners for the episode or dialog channel and for all selections.
     function recordSelection(infoHash, TRAKT_ID) {
       $rootScope.$broadcast('torrent:select:' + TRAKT_ID, infoHash)
       $rootScope.$broadcast('torrent:select', TRAKT_ID, infoHash)
       TorrentHashListService.addToHashList(infoHash)
     }
 
+    /**
+     * Record the hash after the client adapter reports success. Adapters differ
+     * in their success values, but an explicit false or null means rejection.
+     * The later list refresh supplies progress and cannot undo an accepted add.
+     */
     function afterClientAdd(client, request, infoHash, TRAKT_ID) {
       return $q.when(request).then(function(result) {
         if (result === false || result === null) throw new Error('Torrent client rejected the download')
@@ -158,8 +159,11 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         }
       },
 
-      // A show's preferred engine leads an explicit list. Without one, keep the
-      // original single-engine behavior where the show overrides the default.
+      /**
+       * Resolve the active providers in priority order. Prefer the show's
+       * override and the saved list, then fall back to the legacy multi-provider
+       * or single-provider settings. Each registered provider appears at most once.
+       */
       getAutoDownloadProviders: function(showProvider) {
         var configured = SettingsService.get('autodownload.providers')
         var names
@@ -255,6 +259,10 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         }
       },
 
+      /**
+       * Resolve the episode query and return the dialog handle. The caller may
+       * supply a selection channel for a local row without a Trakt ID.
+       */
       findEpisode: function(serie, episode, selectionChannel = episode.TRAKT_ID) {
         return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
           return dialogs.create(templateName, dialogCtrl, {
@@ -278,6 +286,11 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
       },
       openExternalLink: openUrl,
 
+      /**
+       * Submit a magnet through the connected client or hand it to Chromium.
+       * A resolved 'handed-off' result means the link was opened. Only
+       * 'accepted' means a managed client reported success.
+       */
       launchMagnet: function(magnet, TRAKT_ID, dlPath, label) {
         var client = DuckieTorrent.getClient()
         var infoHash = magnet.getInfoHash()
@@ -305,6 +318,11 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         return $q.when('handed-off')
       },
 
+      /**
+       * Fetch and decode a torrent once, then submit it and return its status
+       * and hash. Errors carry a 'source' or 'client' stage so Auto Download
+       * can tell whether it is safe to try another provider.
+       */
       launchFromTorrentUrl: async function(url, TRAKT_ID, releaseName, dlPath, label) {
         var stage = 'source'
         try {
@@ -327,6 +345,8 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
             try {
               request = service.launchTorrentByUpload(response.data, infoHash, TRAKT_ID, releaseName, dlPath, label)
             } catch (error) {
+              // A synchronous unsupported-upload error occurs before submission.
+              // Await the request outside this fallback to avoid a second add.
               if (!/not implemented/i.test(String(error))) throw error
               request = service.launchTorrentByURL(url, infoHash, TRAKT_ID, releaseName, dlPath, label)
             }

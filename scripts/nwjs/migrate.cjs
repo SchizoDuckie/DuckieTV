@@ -36,6 +36,10 @@ function lstatExists(filename) {
   try { fs.lstatSync(filename); return true } catch (error) { if (error.code === 'ENOENT') return false; throw error }
 }
 
+/**
+ * Resolve symlinks in the existing part of a path. Keep missing path segments
+ * so the destination can be compared with the source before it is created.
+ */
 function canonicalPath(filename) {
   let current = path.resolve(filename)
   const missing = []
@@ -48,6 +52,10 @@ function canonicalPath(filename) {
   return path.join(fs.realpathSync(current), ...missing)
 }
 
+/**
+ * Fingerprint profile files by relative path and contents so the original
+ * and offline copy can be compared. Reject links that could leave the copy.
+ */
 function hashTree(directory) {
   const hash = crypto.createHash('sha256')
   function visit(current, relative) {
@@ -100,6 +108,11 @@ function run(binary, app, profile, environment) {
   })
 }
 
+/**
+ * Export a closed legacy profile from an offline copy and import the verified
+ * bundle into a separate native profile. Write migration evidence after the
+ * importer reports activation and the source passes the final hash check.
+ */
 async function main() {
   const config = options()
   ;['source-profile', 'destination-profile', 'legacy-binary'].forEach(function(name) {
@@ -160,6 +173,8 @@ async function main() {
     if (exported.source.nw !== '0.87.0') throw new Error('Legacy export used unexpected NW.js version ' + exported.source.nw)
 
     fs.mkdirSync(destination, { recursive: true })
+    // Each importer launch advances the journal. Activation needs separate
+    // launches to confirm that Chromium persisted the restored localStorage.
     for (let attempt = 0; attempt < 5 && !fs.existsSync(importResult) && !fs.existsSync(importResult + '.error.json'); attempt++) {
       await run(currentBinary, path.join(root, 'scripts', 'nwjs', 'import-app'), destination, {
         DUCKIETV_IMPORT_BUNDLE: bundle,

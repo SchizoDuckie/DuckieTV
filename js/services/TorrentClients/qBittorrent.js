@@ -81,6 +81,7 @@ DuckieTorrent.factory('qBittorrentAuthStrategies', ['$http', function($http) {
 }])
 
 DuckieTorrent.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q', function(BaseHTTPApi, $http, $q) {
+  // qBittorrent can report a rejected add in the body of a successful HTTP response.
   function checkAddResponse(response) {
     if (response.data === 'Fails.') throw new Error('qBittorrent rejected the torrent')
     return response
@@ -110,6 +111,7 @@ DuckieTorrent.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q', function(
         headers: this.authStrategy.postHeaders(this, undefined)
       }).then(checkAddResponse)
     },
+    /** Upload the file and verify that the resulting hash appears in the list. */
     addTorrentByUpload: function(data, infoHash, releaseName, dlPath, label) {
       var self = this
       var fd = new FormData()
@@ -153,6 +155,7 @@ DuckieTorrent.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q', function(
         })
       })
     },
+    // Web API 2.11 renamed the pause and resume endpoints to stop and start.
     execute: function(method, id) {
       if (this.config.apiSubVersion > 10) method += 'sub11'
       return $http.post(this.getUrl(method), 'hashes=' + id, {

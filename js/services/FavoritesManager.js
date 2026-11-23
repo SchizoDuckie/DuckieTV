@@ -1,16 +1,18 @@
 /**
- * FavoritesManager
- * Has add / remove / refresh functions for trakt.tv shows
- * Deduplicates a lot of logic and duplicated dependency injections
+ * Coordinates user requests to add, remove, or refresh Trakt shows.
+ * FavoritesService owns the library and the status of each add operation.
  */
 DuckieTV.factory('FavoritesManager', ['FavoritesService', 'TraktTVv2', '$rootScope', '$filter', 'dialogs', '$q',
   function(FavoritesService, TraktTVv2, $rootScope, $filter, dialogs, $q) {
     var service = {
       /**
-       * Add a show to the database, show progress via FavoritesService.added / errors
-       * @param object serie object from trakt
-       * @param boolean refresh (optional)
-       * @return Promise
+       * Fetch and save a show from a Trakt search result. Concurrent adds for
+       * the same Trakt ID share the first request's promise. Use `refresh` to
+       * fetch fresh data for a show already in the library.
+       *
+       * Resolve to true for a saved or existing favorite, or false when the
+       * add fails or a restore already owns the operation.
+       * @returns {Promise<boolean>}
        */
       add: function(serie, refresh) {
         refresh = refresh || false

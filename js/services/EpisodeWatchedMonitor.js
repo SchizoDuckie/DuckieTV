@@ -1,20 +1,12 @@
 /**
- * Episode watched monitor
- * Count all episodes watched for a season when changes occur, flip switches accordingly.
+ * Recompute season and show watched counts from stored episode state. One
+ * worker processes the show IDs queued by watched events and library updates.
  */
 DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, FavoritesService) {
   var pending = {}
   var drainPromise = null
 
-  /**
-     * Parse the episodes count returned from the recountSerie function into an object with season keys.
-     * format:
-     * {
-     *   seasonID : { watched: <int>, notWatched: int },
-     *   [...]
-     * }
-     * @return Object with season watched episode counts
-     */
+  /** Group SQL counts by season ID and fill in zero for any missing watched status. */
   function parseEpisodeCounts(counts) {
     var seasons = {}
 
@@ -32,13 +24,8 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
   }
 
   /**
-   * Iterate the output from parseEpisodeCounts
-   * and mark every season as either watched or not watched based if notWatched = 0 (indicating that all episodes are watched)
-   * Persist new season watched statuses, and return an intermediate array with boolean values that have a true/false for
-   * every serie. reduce the boolean array into a single digit representing watched seasons for serie.
-   * Return boolean that tells if number of seasons in the show matches watched season count.
-   *
-   * @return {boolean allSeasonsWatched, integer notWatchedTotal}
+   * Persist counts for the seasons represented in the query. Resolve to the
+   * show's aggregate only after the season writes complete.
    */
   function markSeasonsWatched(seasons) {
     var notWatchedTotal = 0 // sum of all serie's seasons' notWatched episodes
@@ -67,7 +54,7 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
   }
 
   /**
-   * Fetch serie from favoritesservice for performance and toggle watched flag.
+   * Write the aggregate to the cached show entity used by the library views.
    */
   function markSerieWatched(ID_Serie, data) {
     var serie = FavoritesService.getByID_Serie(ID_Serie)
@@ -77,6 +64,7 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
     return serie.Persist()
   }
 
+  /** Let queued episode writes finish before querying their watched state. */
   function waitForWrites() {
     if (CRUD.stats.writesExecuted == CRUD.stats.writesQueued) return $q.when()
     return $q(function(resolve) {
@@ -84,6 +72,7 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
     }).then(waitForWrites)
   }
 
+  /** Recount aired episodes in regular seasons, then save season and show totals in that order. */
   function processSerie(ID_Serie) {
     // console.debug("Re counting! ", ID_Serie);
     var query = 'select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired_iso NOT null GROUP BY ID_Season, watched'
@@ -95,6 +84,7 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
       })
   }
 
+  /** Process each pending show in sequence and report the first error after draining the queue. */
   function drain() {
     var firstError = null
 
@@ -105,6 +95,7 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
         return true
       }
 
+      // Requests for this show during the recount can schedule one more pass.
       delete pending[ID_Serie]
       return waitForWrites()
         .then(function() {
@@ -120,6 +111,7 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
   }
 
   return {
+    /** Queue a local show ID for recount and return the active worker's shared promise. */
     recountSerie: function(ID_Serie) {
       pending[ID_Serie] = true
       if (drainPromise === null) {

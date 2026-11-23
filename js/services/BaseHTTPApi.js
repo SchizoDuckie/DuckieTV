@@ -25,10 +25,11 @@ DuckieTV.factory('BaseHTTPApi', ['$http', '$timeout',
     }
 
     /**
-     * Build a JSON request using the URLBuilder service.
-     * @param string type url to fetch from the request types
-     * @param string|number pathParam value for an endpoint's %s placeholder
-     * @param object httpOptions options passed to $http.get
+     * Issue a GET using the client's URL builder and the caller's HTTP options.
+     * @param {string} type Key in the client's endpoint map.
+     * @param {string|number} [pathParam] Value for the endpoint's %s placeholder.
+     * @param {Object} [httpOptions] Angular HTTP options, including header overrides.
+     * @returns {Promise} The full Angular HTTP response.
      */
     BaseHTTPApi.prototype.request = function(type, pathParam, httpOptions) {
       var url = this.getUrl(type, pathParam)
@@ -41,6 +42,11 @@ DuckieTV.factory('BaseHTTPApi', ['$http', '$timeout',
       return $http.get(url, httpOptions)
     }
 
+    /**
+     * Check that the client lists the submitted hash. Some add endpoints return
+     * before the torrent appears, so check up to five times at one-second
+     * intervals. A missing hash after the final check rejects the add.
+     */
     BaseHTTPApi.prototype.waitForTorrent = function(infoHash, releaseName) {
       var self = this
       var expectedHash = infoHash.toUpperCase()

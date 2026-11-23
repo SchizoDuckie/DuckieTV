@@ -21,6 +21,7 @@ DuckieTV.factory('TorrentResultPolicy', [function() {
   }
 
   function matchesRequired(item, policy) {
+    // In All mode the caller has already included these terms in scoreQuery.
     if (!policy.requireAny) return true
     var required = words(policy.requiredKeywords)
     if (required.length === 0) return true
@@ -33,6 +34,7 @@ DuckieTV.factory('TorrentResultPolicy', [function() {
     if (ignored.length === 0) return true
     var protectedQuery = (policy.primaryQuery || '').toString().toLowerCase()
     var name = releaseName(item)
+    // Keep terms from the episode query even when they appear in the exclusion list.
     return !ignored.some(function(part) {
       return protectedQuery.indexOf(part) === -1 && name.indexOf(part) > -1
     })
@@ -52,6 +54,7 @@ DuckieTV.factory('TorrentResultPolicy', [function() {
     return parseInt(item.seeders, 10) >= Number(policy.minSeeders)
   }
 
+  // Keep the last record for each key in the order the keys first appeared.
   function deduplicate(items) {
     var byKey = Object.create(null)
     var keys = []
@@ -72,6 +75,11 @@ DuckieTV.factory('TorrentResultPolicy', [function() {
   }
 
   return {
+    /**
+     * Apply the caller's filters in order to a list that is already ranked.
+     * Counts and snapshots hold the survivors after each stage so Auto Download
+     * can explain why its search found no match.
+     */
     filter: function(results, policy) {
       var items = (results || []).slice()
       var counts = {}

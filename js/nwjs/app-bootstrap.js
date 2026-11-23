@@ -1,5 +1,10 @@
 'use strict'
 
+/**
+ * Start Angular only after the foreground CRUD adapter is ready. Storage
+ * failures stay on this plain DOM screen so the app can offer migration or
+ * fresh setup before any library consumers are initialized.
+ */
 ;(function() {
   var readiness = window.DuckieTVStorageReady || Promise.resolve()
   readiness.then(function() {

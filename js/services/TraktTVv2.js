@@ -170,6 +170,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       throw err
     }
 
+    /** Share an in-progress token refresh across requests that receive a 401. */
     function renewTokenOnce() {
       if (refreshPromise === null) {
         refreshPromise = service.renewToken().finally(function() {
@@ -179,6 +180,11 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       return refreshPromise
     }
 
+    /**
+     * Apply the auth and retry policy before parsing a Trakt response. Each
+     * request can refresh its token once and retry transient HTTP failures
+     * twice. Cancellation and account limits settle without a parsed result.
+     */
     function requestApi(request, attempt, refreshed) {
       attempt = attempt || 0
       refreshed = refreshed || false
@@ -231,9 +237,8 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
     }
 
     /**
-     * Promise requests with batchmode toggle to auto-kill a previous request when running.
-     * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
-     * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
+     * Get a Trakt resource using its endpoint parser. Search and trending
+     * callers supply their own cancellation promise.
      */
     var promiseRequest = function(type, param, param2, promise) {
       return requestApi({
@@ -259,9 +264,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
 
     var service = {
       /**
-       * get a single show summary.
-       * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * https://docs.trakt.tv/reference/getshowssummary
+       * Reuse an existing summary when supplied, then attach seasons and their
+       * episodes unless seriesOnly is set. Report progress as each season
+       * finishes fetching, starting at zero. Keep seasons in Trakt's order.
        */
       serie: async function(id, existingSerie, seriesOnly, onSeasonProgress) {
         try {

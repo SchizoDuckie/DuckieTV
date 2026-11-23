@@ -1,6 +1,6 @@
 /**
- * Owns the current backup wire format and converts historical TVDB- and
- * Trakt-keyed backups into the same validated restore plan.
+ * Defines the on-disk backup format and converts current and legacy backups
+ * into the same restore plan without modifying the local library.
  */
 DuckieTV.factory('BackupCodec', [function() {
   var FORMAT_VERSION = 2
@@ -29,6 +29,7 @@ DuckieTV.factory('BackupCodec', [function() {
     return input
   }
 
+  /** Extract Jackett records for database restore and copy ordinary settings. */
   function normalizeSettings(settings) {
     if (!settings || !angular.isObject(settings) || angular.isArray(settings)) {
       throw new Error('Backup settings must be an object')
@@ -95,6 +96,11 @@ DuckieTV.factory('BackupCodec', [function() {
     }
   }
 
+  /**
+   * Convert the unversioned show map. Its settings choose the show ID namespace,
+   * but each episode carries its own ID. Some exports omit the leading preferences
+   * entry, so detect it by the absence of episode IDs before reading the rows.
+   */
   function normalizeLegacy(input, normalizedSettings) {
     if (!input.series || !angular.isObject(input.series) || angular.isArray(input.series)) {
       throw new Error('Legacy backup series must be an object')
@@ -122,6 +128,7 @@ DuckieTV.factory('BackupCodec', [function() {
           return {
             identity: validateIdentity({ type: episodeType, id: episodeID }, 'Episode'),
             watchedAt: episode.watchedAt || null,
+            // Older exports recorded downloads by including the episode row.
             downloaded: typeof episode.downloaded === 'undefined' ? 1 : episode.downloaded || 0
           }
         })
@@ -136,6 +143,11 @@ DuckieTV.factory('BackupCodec', [function() {
 
   return {
     formatVersion: FORMAT_VERSION,
+    /**
+     * Build a v2 backup from settings and library rows. Episode rows carry both
+     * the show's TRAKT_ID and the episode's epTRAKT_ID from the export query.
+     * Keep every show even when it has no episode state to export.
+     */
     serialize: function(settings, seriesRows, episodeRows) {
       var series = seriesRows.map(function(row) {
         return {
@@ -158,6 +170,11 @@ DuckieTV.factory('BackupCodec', [function() {
       })
       return { formatVersion: FORMAT_VERSION, settings: settings, series: series }
     },
+    /**
+     * Accept JSON text or a parsed object. Return a plan with separate settings,
+     * Jackett records, and shows with typed IDs. Throw on an unsupported version
+     * or invalid structure so restore can stop before applying the plan.
+     */
     normalize: function(input) {
       input = parse(input)
       if (!input || !angular.isObject(input) || angular.isArray(input)) throw new Error('Backup root must be an object')
@@ -171,6 +188,11 @@ DuckieTV.factory('BackupCodec', [function() {
 
 DuckieTV.factory('BackupService', ['TorrentSearchEngines', 'BackupCodec', function(TorrentSearchEngines, BackupCodec) {
   var service = {
+    /**
+     * Export settings, show preferences, and watched or downloaded episode state
+     * as a JSON Blob. Restore fetches show and episode metadata from Trakt.
+     * @returns {Promise<Blob>}
+     */
     createBackup: function() {
       // Fetch all the series
       return CRUD.executeQuery('select Series.TRAKT_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat, Series.customIncludes, Series.customExcludes, Series.customSeeders from Series').then(function(series) {
@@ -193,7 +215,7 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', 'BackupCodec', functi
           settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i))
         }
 
-        // Store watched episodes for each serie
+        // Export both flags so a download can be restored without marking it watched.
         return CRUD.executeQuery('select Series.TRAKT_ID, Episodes.TRAKT_ID as epTRAKT_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
           var out = BackupCodec.serialize(settings, series.rows, res.rows)
 

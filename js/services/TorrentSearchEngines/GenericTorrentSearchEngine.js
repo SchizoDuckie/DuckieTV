@@ -258,8 +258,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
   }
 
   /**
-     * Generic details parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
-     */
+   * Extract known download links from a details page. A missing container
+   * indicates an unreadable page. A valid container can have no download links.
+   */
   function parseDetails(data, releaseName) {
     var output = {}
     if ('detailsSelectors' in config) {
@@ -294,13 +295,14 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
   }
 
   /**
-   * Execute a generic torrent search, parse the results and return them as an array
+   * Return parsed results, retrying a provider mirror at most once. A 404
+   * resolves to an empty list. Other request failures reject the search.
+   * Pass noCancel for a background search that outlives the interactive dialog.
    */
   this.search = function(what, noCancel, orderBy) {
     what = what.replace(/'/g, '')
     var request = $q.defer()
-    // Interactive searches can replace one another. Each Auto Download keeps
-    // its own request across retries and continues when a search dialog closes.
+    // A mirror retry reuses this request's cancellation token.
     if (noCancel !== true) {
       if (activeRequest) activeRequest.resolve()
       activeRequest = request

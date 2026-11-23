@@ -27,6 +27,8 @@ function loadScript(scriptname) {
   })
 }
 
+// The manifest order keeps the adapter, entities, and storage preflight
+// available before the bootstrap creates the shared storage readiness promise.
 window.DuckieTVBackgroundScriptsReady = manifest.background.scripts.reduce(function(promise, scriptname) {
   return promise.then(function() { return loadScript(scriptname) })
 }, Promise.resolve()).then(function() {

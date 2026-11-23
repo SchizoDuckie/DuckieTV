@@ -1,7 +1,6 @@
 /**
- * Persistent storage for favorite series and episode
- *
- * Provides functionality to add and remove series and is the glue between Trakt.TV,
+ * Persists favorite shows and their seasons and episodes. Keeps an in-memory
+ * library of show entities for the calendar, search, and watched counts.
  */
 DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'SceneNameResolver', '$injector',
   function($q, $rootScope, FanartService, SceneNameResolver, $injector) {
@@ -12,6 +11,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       })
     }
 
+    /** Update the in-memory list after saving the entity, including legacy rows without a Trakt ID. */
     function addToFavoritesList(serie, previousTraktId) {
       var index = service.favorites.findIndex(function(el) {
         return el === serie || (serie.TRAKT_ID != null && el.TRAKT_ID == serie.TRAKT_ID)
@@ -70,8 +70,9 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       }
     }
     /**
-     * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
-     * Input information will always overwrite existing information.
+     * Apply Trakt metadata to an episode entity, then apply matching backup state.
+     * A restore entry can identify the episode by TVDB or Trakt ID and can mark
+     * it downloaded independently of its watched timestamp.
      */
     function fillEpisode(episode, data, season, serie, watched, sceneStillImage) {
       // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
@@ -107,12 +108,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
           episode[i] = data[i]
         }
       }
-      // if there's an entry for the episode in watchedEpisodes, this is a backup restore
       watched.map(function(el) {
-        // Dtv.Backups upto 1.1.5 use TVDB_ID, after 1.1.5 use TRAKT_ID
         if (('TVDB_ID' in el && el.TVDB_ID && el.TVDB_ID == episode.TVDB_ID) || ('TRAKT_ID' in el && el.TRAKT_ID && el.TRAKT_ID == episode.TRAKT_ID)) {
           episode.downloaded = el.downloaded
-          episode.watchedAt = el.watchedAt // an entry may mean it's watched ... or not.
+          episode.watchedAt = el.watchedAt
           if (el.watchedAt != null) {
             episode.watched = 1
           } else {
@@ -177,12 +176,9 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
     }
 
     /**
-     * Insert all episodes into the database and return a cached array map
-     * @param {Serie|any} serie
-     * @param seasons
-     * @param watched
-     * @param {Record<number, Season>} seasonCache
-     * @return {Promise<*>}
+     * Save new and updated episodes and resolve to an entity map keyed by Trakt ID.
+     * An optional progress callback receives (saved, total), starting at zero
+     * and advancing after each episode write succeeds.
      */
     async function updateEpisodes(serie, seasons, watched, seasonCache, onEpisodeProgress) {
       let saved = 0
@@ -212,15 +208,14 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       downloadRatings: $injector.get('SettingsService').get('download.ratings'), // determines if Ratings are processed or discarded
 
       /**
-       * Handles adding, deleting and updating a show to the local database.
-       * Grabs the existing serie, seasons and episode from the database if they exist
-       * and inserts or updates the information.
-       * Deletes the episode from the database if TraktTV no longer has it.
-       * Returns a promise that gets resolved when all the updates have been launched
-       * (but not necessarily finished, they'll continue to run)
+       * Add or refresh a show using its full Trakt response. For legacy restores,
+       * `useTrakt_id` selects which ID to match against existing library rows.
+       * `watched` contains optional episode state from the backup.
        *
-       * @param object data input data from TraktTV or restore-from-backup
-       * @param object watched { TRAKT_ID => watched episodes } mapped object to auto-mark as watched
+       * Save the show and seasons before writing their episodes. Resolve to the
+       * saved show after the episode writes and after notifying calendar and
+       * watched count listeners. A failed later write can leave earlier rows saved.
+       * @returns {Promise<Serie>}
        */
       addFavorite: async function(data, watched, useTrakt_id, updateImages, onEpisodeProgress) {
         watched = watched || []
@@ -265,6 +260,11 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
           waitForInitialize()
         })
       },
+      /**
+       * Load episodes between two inclusive epoch millisecond bounds. Wait for
+       * the in-memory library to load so callers can resolve the returned shows.
+       * Pass `options` through to CRUD for ordering and result limits.
+       */
       getEpisodesForDateRange: function(start, end, options) {
         return service.waitForInitialization().then(function() {
           return CRUD.Find('Episode', [['Episodes.firstaired BETWEEN ? AND ?', start, end]], options)
@@ -353,7 +353,8 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         })
       },
       /**
-       * set true the adding status for this series. used to indicate spinner icon required
+       * Mark an add or restore in progress. Interactive adds provide their
+       * promise so another request for the same show can await the same work.
        */
       adding: function(trakt_id, promise) {
         service.operationByTraktId[trakt_id] = {
@@ -363,7 +364,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         }
       },
       /**
-       * set false the adding status for this series. used to indicate checkmark icon required
+       * End the add operation. The checkmark comes from library membership.
        */
       added: function(trakt_id) {
         service.operationByTraktId[trakt_id] = {
@@ -379,7 +380,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         service.operationByTraktId = {}
       },
       /**
-       * Returns true as long as the add a show to favorites promise is running.
+       * Check for an active add or restore, including restores with no shared promise.
        */
       isAdding: function(trakt_id) {
         if (trakt_id === null) return false
@@ -409,7 +410,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         }
       },
       /**
-       * Used to show sadface icon in the add modes for series that you already have.
+       * Check whether the last add or restore for this show failed.
        */
       isError: function(trakt_id) {
         if (trakt_id === null) return false

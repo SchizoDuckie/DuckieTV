@@ -5,12 +5,17 @@ const { DatabaseSync } = require('node:sqlite')
 
 let database = null
 
+/** Keep integers that exceed JavaScript's safe range as decimal strings. */
 function serializeInteger(value) {
   if (typeof value !== 'bigint') return value
   if (value <= BigInt(Number.MAX_SAFE_INTEGER) && value >= BigInt(Number.MIN_SAFE_INTEGER)) return Number(value)
   return value.toString()
 }
 
+/**
+ * Adapt node:sqlite results to the CRUD adapter's row and write result shapes.
+ * Use prepared statement metadata to detect queries that return columns.
+ */
 function execute(sql, bindings) {
   const statement = database.prepare(sql)
   const columns = statement.columns()
@@ -30,6 +35,7 @@ function execute(sql, bindings) {
   return output
 }
 
+/** Commit schema changes, version records, and data together in one batch. */
 function batch(statements) {
   database.exec('BEGIN IMMEDIATE')
   try {

@@ -14,6 +14,10 @@ const registryName = 'DuckieTV'
 const agentName = 'tv.duckie.DuckieTV.login'
 const startInTray = '--duckietv-start-in-tray'
 
+/**
+ * Build the registration interface for the current installation. Tests can
+ * supply platform, executable, home, filesystem, and process launcher values.
+ */
 function createLoginStartup(options) {
   options = options || {}
   const platform = options.platform || process.platform
@@ -104,6 +108,10 @@ function createLoginStartup(options) {
     hasLegacyAgent: function() {
       return platform === 'darwin' && fileSystem.existsSync(agentPath())
     },
+    /**
+     * Read the current login registration. A legacy macOS agent still counts
+     * as enabled until Window settings migrate it to Service Management.
+     */
     isEnabled: function() {
       const app = applicationPath()
       if (!app) {
@@ -114,6 +122,10 @@ function createLoginStartup(options) {
       }
       return registryValue() === '"' + app + '" ' + startInTray
     },
+    /**
+     * Update registration for this packaged app. Throws on helper or registry
+     * failures and when macOS requires the user to approve the new agent.
+     */
     setEnabled: function(enabled) {
       const app = applicationPath()
       if (!app) {

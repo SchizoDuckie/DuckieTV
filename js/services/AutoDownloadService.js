@@ -1,13 +1,14 @@
 /**
- * The AutoDownloadService checks if a download is available for a TV-Show that's aired
- * and automatically downloads the first search result if it passes all the filters and more than minSeeders seeders are available.
- * SE must have magnets as we need the torrentHash to track progress. magnets on details page are supported.
+ * Runs scheduled and manual episode downloads using the configured provider order.
+ * Each provider's results are sorted by seeders and filtered before the best match
+ * is submitted. Magnet links and torrent files both supply a hash for tracking.
  */
 DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter', '$translate', 'FavoritesService', 'SceneNameResolver', 'SettingsService', 'TorrentSearchEngines', 'TorrentResultPolicy', 'DuckieTorrent', 'NotificationService',
   function($rootScope, InAppAlerts, $filter, $translate, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, TorrentResultPolicy, DuckieTorrent, NotificationService) {
     var offClientConnected
     var activityUpdatePending = false
 
+    // Batch activity changes until Angular processes the queued notification.
     function publishActivity() {
       if (activityUpdatePending) return
       activityUpdatePending = true
@@ -17,7 +18,11 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
       })
     }
 
-    // Return the best eligible release or the reason none passed the user's filters.
+    /**
+     * Search one provider and return its highest-seeded eligible release.
+     * If none qualifies, return the activity status for the first filter that
+     * eliminated all candidates. Transport and malformed responses reject.
+     */
     async function findRelease(engine, query, policy) {
       var results = await engine.search(query, true)
       if (!Array.isArray(results)) throw new Error('Invalid search response')
@@ -36,6 +41,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
       fromDT: null,
       toDT: null,
 
+      // Store the filter context with each result so the activity monitor can explain it.
       activityUpdate: function(serie, episode, search, status, extra, provider) {
         var csm = 0
         var searchExtra = ''
@@ -82,6 +88,12 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
         publishActivity()
       },
 
+      /**
+       * Scan the recent air-date window for scheduled downloads. A new timer is
+       * installed before asynchronous work starts, even when the client is offline.
+       * A detach or newer scan invalidates pending candidate results, but does not
+       * cancel downloads already started by an earlier scan.
+       */
       autoDownloadCheck: async function() {
         if (SettingsService.get('torrenting.autodownload') === false) {
           service.detach()
@@ -118,6 +130,8 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
           if (service.checkTimeout !== nextCheck) return // detached or superseded during the scan
           var seriesById = new Map()
           FavoritesService.favorites.forEach(function(serie) { seriesById.set(String(serie.ID_Serie), serie) })
+          // Start eligible episodes independently. The scan's completion and last-run
+          // timestamp do not wait for each provider search or client submission.
           candidates.forEach(function(episode) {
             var serie = seriesById.get(String(episode.ID_Serie))
             if (!serie) return
@@ -181,6 +195,12 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
         }
       },
 
+      /**
+       * Search providers in order and submit the first eligible release.
+       * Resolves with the client outcome, 'no-results', or 'failed'. Manual calls
+       * use in-app alerts and scheduled success uses system notifications.
+       * 'failed' can also mean saving the hash failed after the client accepted it.
+       */
       autoDownload: async function(serie, episode, manual) {
         var hasCustomSeeders = (serie.customSeeders && serie.customSeeders != null) ? 1 : 0
         var hasCustomIncludes = (serie.customIncludes && serie.customIncludes != null) ? 1 : 0
@@ -248,6 +268,8 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
             stages: ['score', 'required', 'ignored', 'size', 'seeders']
           }
 
+          // Preserve the first provider error if no later provider succeeds. A
+          // clean search with no matches alone produces the no-results outcome.
           var firstFailure
           for (var provider of providers) {
             context.provider = provider
@@ -318,6 +340,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
         }
       },
 
+      // Own one timer and one connection listener across repeated attach calls.
       attach: function() {
         if (!service.checkTimeout) {
           service.checkTimeout = setTimeout(service.autoDownloadCheck, 5000)
@@ -328,6 +351,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', 'InAppAlerts', '$filter',
         }
       },
 
+      // Clearing the timer also invalidates a scan waiting for its candidate query.
       detach: function() {
         if (offClientConnected) offClientConnected()
         offClientConnected = null

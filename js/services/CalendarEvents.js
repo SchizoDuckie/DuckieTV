@@ -1,8 +1,6 @@
 /**
- * The CalendarEvents service provides storage and retrieve functions
- * for episodes that are displayed on the calendar. It has built-in cache
- * and watches for the calendar changing it's date before fetching a new
- * set of episodes from the database
+ * Owns the visible calendar's episode lists, keyed by local date. The grouped
+ * series view is derived from those lists and invalidated when a day changes.
  */
 DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsService',
   function($rootScope, FavoritesService, SettingsService) {
@@ -38,9 +36,8 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
     }
 
     /**
-     * Sort the episodes for a specific date.
-     * First by air time, then by episode number if multiple episodes for a serie,
-     * then by title if multiple series at the same time.
+     * Order a day's events by airtime. For a tie, order episodes of the same
+     * series by episode number and different series by title.
      */
     function calendarEpisodeSort(a, b) {
       if (a.serie == null || b.serie == null) {
@@ -62,7 +59,8 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
     }
 
     /**
-     * If the episode exist in other dates in the calendarEvents object, remove it.
+     * Remove an episode from its old day when the air date changes, including
+     * when the new date falls outside the visible range.
      */
     function deleteDuplicates(duplicateID, eventDate) {
       for (var aDate in calendarEvents) {
@@ -82,7 +80,8 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
 
     var service = {
       /**
-       * Remove shows that were deleted from the database from the calendar.
+       * Drop episodes whose show is no longer in favorites. Use the local entity
+       * ID for older library rows without a Trakt ID.
        */
       removeDeleted: function() {
         var favoriteIDs = new Set(FavoritesService.favoriteIDs.map(String))
@@ -104,9 +103,8 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         return calendarEvents
       },
       /**
-       * setVisibleDays function is called from the calendar directive.
-       * It fills the CalendarEvents with days that are currently on display and makes sure
-       * that days that are not currently displayed are purged from cache
+       * Start a new calendar cache for the date picker's grid of weeks. Include
+       * the whole final local day, which may span a clock change.
        */
       setVisibleDays: function(range) {
         if (!range || range.length == 1 && range[0].length == 1) return
@@ -125,17 +123,14 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
       },
 
       /**
-       * Optimized function to feed the calendar it's data.
-       * Fetches the episodes for a date range and the relevant series for it. Then caches and refreshes the calendar
-       * @param  Date start startDate
-       * @param  Date end endDate
+       * Load episodes within the inclusive Date bounds and attach the cached
+       * show entity to each event. Discard results if navigation or a cache
+       * reset replaced the visible range while the query was running.
        */
       getEventsForDateRange: function(start, end) {
         var visibleDays = calendarEvents
-        // fetch episodes between 2 timestamps
         return FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
           if (visibleDays !== calendarEvents) return
-          // iterate all the episodes and bind it together with the serie into an event array
           return service.setEvents(episodes.map(function(episode) {
             return {
               start: new Date(episode.firstaired),
@@ -152,9 +147,9 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
       },
 
       /**
-       * Merge any incoming new events with the events already in calendarEvents.
-       * Removes any mention of the episode that already exists and then adds the new one.
-       * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
+       * Merge query results into the visible days. Drop orphaned episodes and
+       * honor the global and per-show rules for specials. Reconcile date moves
+       * before deciding whether the new day belongs to the current view.
        */
       setEvents: function(events) {
         service.removeDeleted()
@@ -172,6 +167,7 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         $rootScope.$applyAsync()
       },
 
+      /** Apply a saved show's episode map to the current date grid without rerunning the range query. */
       processEpisodes: function(serie, episodes) {
         Object.keys(episodes).map(function(id) {
           var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString()
@@ -247,9 +243,9 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         return eps
       },
       /**
-       * Sort the series for a day, that are now grouped by ID_Serie. It needs to return
-       * an array (so that it can be sorted) instead of an object, and cache it, for angular.
-       * Cache is cleared and regenerated when an episode is added to the list.
+       * Return episode arrays grouped by local series ID, ordered by each
+       * group's first event. Keep the same array between reads until the day
+       * changes so Angular can reuse the grouped view.
        */
       getSeries: function(date) {
         var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString()

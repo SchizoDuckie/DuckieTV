@@ -1,3 +1,7 @@
+/**
+ * Shared NW.js window operations for the tray and window settings. The
+ * remembered normal or maximized state survives hiding the window to the tray.
+ */
 DuckieTV.factory('StandaloneWindowRuntime', [function() {
   var win = null
   var state = readPersistedState()
@@ -28,6 +32,7 @@ DuckieTV.factory('StandaloneWindowRuntime', [function() {
       return localStorage.getItem('standalone.startupMinimized') === 'Y' ||
         (nw.App.argv || []).indexOf('--duckietv-start-in-tray') !== -1
     },
+    /** Restore the window and its Dock or taskbar presence before focusing it. */
     show: function() {
       var window = getWindow()
       window.setShowInTaskbar(true)
@@ -39,6 +44,10 @@ DuckieTV.factory('StandaloneWindowRuntime', [function() {
       window.hide()
       window.setShowInTaskbar(false)
     },
+    /**
+     * Handle an NW.js close event. An explicit Quit always invokes the caller's
+     * shutdown callback. A close to the tray creates a way back before hiding.
+     */
     handleClose: function(reason, closeToTray, createTray, quit) {
       if (reason === 'quit' || !closeToTray) {
         quit()

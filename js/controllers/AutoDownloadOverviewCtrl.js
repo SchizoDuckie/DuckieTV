@@ -47,6 +47,13 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       return true
     }
 
+    /**
+     * Combine the saved episode state with the current client snapshot. Pending
+     * means the torrent exists but has no usable progress, missing means a
+     * connected client cannot find its hash, and offline means no client snapshot
+     * is available. If the configured launch path is external and there is
+     * no matching torrent, mark the episode untracked.
+     */
     function updateStatus(row, client) {
       var episode = row.episode
       var hash = episode.magnetHash
@@ -83,6 +90,7 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       }
     }
 
+    // Count all filtered rows while limiting rendered rows to the current page.
     function regroup() {
       var query = (vm.filters.query || '').toLowerCase().trim()
       var groups = []
@@ -114,6 +122,11 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       regroup()
     }
 
+    /**
+     * Reload the selected air-date range. Only the latest request may replace
+     * rows or loading state, including when an older request fails or the view closes.
+     * Background refreshes keep existing rows visible while the query runs.
+     */
     vm.reload = function(background) {
       var request = ++generation
       var end = new Date(vm.to)
@@ -158,6 +171,8 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       InAppAlerts.show('error', $translate.instant(key, { episode: episode }, undefined, undefined, []))
     }
 
+    // A reload may have replaced the row during an action. Update the current
+    // row by ID and avoid touching the view after it has been destroyed.
     function finishAction(row) {
       busy.delete(row.id)
       var current = rows.get(row.id)
@@ -167,6 +182,7 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       regroup()
     }
 
+    // Prevent concurrent actions on an episode and avoid resubmitting an active torrent.
     vm.autoDownload = function(row) {
       if (!SettingsService.get('torrenting.enabled') || !row.canDownload || busy.has(row.id) ||
           ['downloading', 'paused', 'pending'].includes(row.status)) return
@@ -177,6 +193,7 @@ DuckieTV.controller('AutoDownloadOverviewCtrl', ['$scope', '$q', '$timeout', '$t
       })
     }
 
+    // Only one Find dialog is open at a time so torrent:select can identify its row.
     vm.find = function(row) {
       if (!SettingsService.get('torrenting.enabled') || !row.canDownload || busy.has(row.id) || findRow) return
       busy.add(row.id)

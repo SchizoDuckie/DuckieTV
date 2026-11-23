@@ -85,6 +85,11 @@ function Jackett() {
   CRUD.Entity.call(this)
 }
 
+/**
+ * Start writes for episodes that match the predicate. Resolve to true after
+ * those writes and the optional owner write succeed. If an episode write
+ * rejects, skip the owner write. Other episode writes may already have finished.
+ */
 function mutateEpisodes(owner, predicate, mutation, persistOwner) {
   return owner.getEpisodes().then(function(episodes) {
     return Promise.all(episodes.filter(predicate).map(mutation))

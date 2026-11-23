@@ -15,6 +15,7 @@
     return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex')
   }
 
+  /** Publish each stage by renaming a complete journal into place. */
   function writeJournal(journal) {
     var temporary = journalPath + '.tmp'
     fs.writeFileSync(temporary, JSON.stringify(journal, null, 2) + '\n', { mode: 384 })
@@ -34,6 +35,10 @@
     localStorage.setItem(stateKey, state)
   }
 
+  /**
+   * Read the application entity schema in a sandbox so the importer can use
+   * its table definitions and versions without starting the CRUD adapter.
+   */
   function loadCatalog() {
     var sandbox = {
       console: console,
@@ -57,6 +62,10 @@
     })
   }
 
+  /**
+   * Reject an incompatible export before clearing the destination. Check
+   * runtime identity, checksums, the expected schema, and episode references.
+   */
   function validateBundle(bundle, catalog) {
     if (bundle.format !== 'duckietv-nwjs-migration' || bundle.version !== 1) throw new Error('Unsupported migration bundle')
     if (!bundle.source || bundle.source.nw !== '0.87.0' || bundle.source.origin !== 'chrome-extension://bagblfnohpiddokbpaacecffdboomafe') throw new Error('Untrusted legacy runtime identity')
@@ -112,6 +121,10 @@
     return '"' + identifier.replace(/"/g, '""') + '"'
   }
 
+  /**
+   * Create the tables, stamp their versions, and copy rows in one transaction.
+   * Map column names case-insensitively from Web SQL to the entity schema.
+   */
   function importBundle(bundle, catalog, database) {
     var statements = []
     catalog.forEach(function(entity) {
@@ -132,6 +145,10 @@
     return database.batch(statements)
   }
 
+  /**
+   * Compare committed rows in the export's column and primary-key order, then
+   * check SQLite integrity and relationships before allowing activation.
+   */
   function verifyImported(bundle, catalog, database) {
     return catalog.reduce(function(promise, entity) {
       return promise.then(function() {
@@ -179,6 +196,8 @@
       var resumableStages = ['database-importing', 'database-validated', 'storage-restoring', 'storage-restored', 'activation-pending', 'activation-verifying', 'failed']
       if (existingJournal && existingJournal.bundleSha256 !== bundle.sha256) throw new Error('Destination belongs to a different migration bundle')
       if (existingJournal && existingJournal.version !== 1) throw new Error('Unsupported migration journal version')
+      // A user may have changed their library since activation. A completed
+      // journal makes reruns report success without replaying the export.
       if (existingJournal && existingJournal.stage === 'complete') {
         if (!fs.existsSync(databasePath)) throw new Error('Completed migration database is missing')
         if (localStorage.getItem(stateKey) !== 'native-v1-ready') throw new Error('Completed migration activation marker is missing')
@@ -186,6 +205,8 @@
         return null
       }
       if (existingJournal && resumableStages.indexOf(existingJournal.stage) === -1) throw new Error('Unknown migration journal stage: ' + existingJournal.stage)
+      // Write the ready marker on one launch and confirm it on the next. A
+      // process exit can interrupt Chromium's asynchronous storage flush.
       if (existingJournal && existingJournal.stage === 'activation-pending') {
         if (!fs.existsSync(databasePath)) throw new Error('Migration activation database is missing')
         restoreStorage(bundle, 'native-v1-ready')
@@ -210,6 +231,8 @@
         if (databaseExists || unexpectedDestinationKeys.length) throw new Error('Migration destination is not empty')
         localStorage.clear()
       }
+      // An unfinished import for this bundle can be rebuilt from the export.
+      // The activation branches above keep a verified database in place.
       if (existingJournal) {
         ;[databasePath, databasePath + '-wal', databasePath + '-shm'].forEach(function(filename) { fs.rmSync(filename, { force: true }) })
         localStorage.clear()

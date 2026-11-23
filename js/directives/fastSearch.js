@@ -6,9 +6,10 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
     this.isNotKK = true // flag used to prevent kk sequence from triggering fast-search
     this.fsKKi = 0 // index used in preventing kk sequence from triggering fast-search
 
-    // console.debug("fastsearch initializing");
     var isShowing = false
 
+    // The modal input may not exist yet. Keep the typed query until it mounts,
+    // and stop polling if the modal closes before it does.
     var focusInput = function() {
       if (!isShowing) return
       var i = document.querySelector('.fastsearch input')
@@ -33,23 +34,16 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
 
       setTimeout(focusInput, 50)
 
-      d.result.then(function() {
-        // console.debug('Success');
-        d = undefined
+      function resetSearch() {
         isShowing = false
         self.fsquery = ''
-      }, function() {
-        // console.debug('Cancelled');
-        d = undefined
-        isShowing = false
-        self.fsquery = ''
-      })
+      }
+      d.result.then(resetSearch, resetSearch)
     }
 
     return {
       restrict: 'E',
       link: function() {
-        // console.debug("fastsearch initialized");
         $window.addEventListener('keydown', function(e) {
           // parse key codes, trap kk sequence
           var kk = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]
@@ -123,6 +117,11 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
         return FavoritesService.getByID_Serie(episode.ID_Serie)
       }
 
+      /**
+       * Start independent local, Trakt, episode, and torrent searches for a query.
+       * Replacing the results object invalidates older asynchronous responses and
+       * their loading indicators. Clearing the query invalidates them as well.
+       */
       $scope.search = function(value) {
         var query = (value || '').trim()
         var results = { series: [], traktSeries: [], episodes: [], torrents: [] }
@@ -154,6 +153,7 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
 
         results.series = FavoritesService.favorites.filter(function(serie) { return matches(serie.name) })
         load('episodes', function() {
+          // Treat SQL LIKE wildcards and the escape character as literal input.
           var pattern = '%' + query.replace(/[!%_]/g, '!$&') + '%'
           return CRUD.Find('Episode', [["Episodes.episodename LIKE ? ESCAPE '!'", pattern]], { limit: 9 })
         })
@@ -173,12 +173,7 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
         $modalInstance.close('Closed')
       }
 
-      /**
-         * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
-         * Queues up the trakt_id in the serieslist.adding array so that the spinner can be shown.
-         * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
-         * It can show the checkmark.
-         */
+      // FavoritesManager owns the add state. Refresh results after a successful add.
       $scope.addTraktSerie = function(serie) {
         return FavoritesManager.add(serie).then(function(added) {
           SidePanelState.hide()
@@ -202,9 +197,7 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
         return FavoritesService.isAdding(trakt_id)
       }
 
-      /**
-         * Returns true as long as the add a show to favorites promise is running.
-         */
+      /** Returns true when adding the show failed. */
       $scope.isError = function(trakt_id) {
         return FavoritesService.isError(trakt_id)
       }
